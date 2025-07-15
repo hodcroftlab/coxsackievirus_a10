@@ -1,0 +1,79 @@
+{
+  "title": "Genomic Epidemiology of Coxsakievirus A10 Whole Genome",
+  "maintainers": [
+    {
+      "name": "Alejandra González-Sánchez",
+      "url": ""
+    },
+    {
+      "name": "Emma Hodcroft",
+      "url": "http://emmahodcroft.com/"
+    }
+  ],
+  "data_provenance": [
+    {
+      "name": "GenBank",
+      "url": "https://www.ncbi.nlm.nih.gov/genbank/"
+    }
+  ],
+  "build_url": "https://github.com/hodcroftlab/....",
+  "colorings": [
+    {
+      "key": "gt",
+      "title": "Subgenotype",
+      "type": "categorical"
+    }, 
+    {
+      "key": "published_clade",
+      "title": "Published Clades",
+      "type": "categorical"
+    }, 
+    {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "region",
+      "title": "Global Regions",
+      "type": "categorical"
+    },
+    {
+      "key": "isolate-lineage-source",
+      "title": "Isolation Source",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    {
+      "key": "country",
+      "title": "Country"
+    },
+    {
+      "key": "place",
+      "title": "Areas"
+    },
+    {
+      "key": "region",
+      "title": "Global Regions"
+    }
+  ],
+  "panels": [
+    "tree",
+    "map",
+    "entropy"
+  ],
+  "display_defaults": {
+    "color_by": "clade_membership",
+    "geo_resolution": "country",
+    "tip_label": "strain",
+    "map_triplicate": true
+  },
+  "metadata_columns": [
+    "strain"
+  ],
+  "filters": [
+    "country",
+    "author"
+  ]
+}

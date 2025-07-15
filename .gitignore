@@ -1,0 +1,23 @@
+# Ignore Snakemake files
+.snakemake/*
+ingest/.snakemake/*
+
+# Ignore ingest logs and benchmarks
+ingest/logs
+ingest/benchmarks
+
+# Ignore ingest results
+ingest/data/trans_*
+ingest/data/ncbi*
+ingest/data/metadata*
+ingest/data/sequences.fasta
+
+# Ignore intermediate results files
+vp1/results/*
+whole_genome/results/*
+data/metadata.tsv
+data/sequences.fasta
+data/curated/*
+
+# Ignore temporary files
+temp
