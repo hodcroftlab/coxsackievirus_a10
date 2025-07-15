@@ -38,4 +38,4 @@ The `config`, `vp1/config`, and `whole_genome/config` directories contain necess
 ## TODOs
 
 - [ ] Automate the inclusion of the reference collection date. If its inferred, is set to 2022 and affects all the tree structure.
-- [X] Remove the `date` 'Color by'. Not found in the `auspice_config.json` files. --> This field was included in the snakefile in the `rule export`, in the `--color-by-metadata {params.coloring_fields}`
+- [X] Remove the `date` 'Color by'. Not found in the `auspice_config.json` files. → This field was included in the snakefile in the `rule export`, in the `--color-by-metadata {params.coloring_fields}`
