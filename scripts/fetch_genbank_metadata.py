@@ -3,6 +3,13 @@
 Fetch GenBank metadata for viral accessions with config-driven symptom and isolation mappings.
 
 This script can be used standalone or integrated into Snakemake workflows.
+
+python fetch_genbank_metadata.py \
+            --virus "<virus>" \
+            --accession_file "<accession list file>"  \
+            --output "<output-tsv file>"  \
+            --genbank "<summary genbank metafile>" \
+            --config config/config.yaml
 """
 
 import argparse
