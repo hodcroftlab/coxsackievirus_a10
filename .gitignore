@@ -11,6 +11,7 @@ ingest/data/trans_*
 ingest/data/ncbi*
 ingest/data/metadata*
 ingest/data/sequences.fasta
+ingest/data/*
 
 # Ignore intermediate results files
 vp1/results/*
@@ -21,3 +22,13 @@ data/curated/*
 
 # Ignore temporary files
 temp
+
+# auspice
+auspice/*
+
+# data
+data/metadata
+
+# files with sensitive information
+.env
+bin
