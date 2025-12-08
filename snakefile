@@ -2,29 +2,29 @@
 # Snakemake execution templates:
 
 # To run a default protein xy run:
-# snakemake  auspice/<your_virus>_protein_xy.json --cores 9
+# snakemake  auspice/coxsackievirus_A10_vp1.json --cores 9
 
 # To run a default whole genome run (>6400bp):
-# snakemake auspice/<your_virus>_genome.json --cores 9
+# snakemake auspice/coxsackievirus_A10_genome.json --cores 9
 
 # Load config file
 if not config:
     configfile: "config/config.yaml"
 
 ###############
-#ensure protein_xy name similar to that found in the reference_sequence.gb CDS
+#ensure vp1 name similar to that found in the reference_sequence.gb CDS
 wildcard_constraints:
     seg="vp1|whole_genome"  # Define segments to analyze, e.g. vp1, whole-genome. This wildcard will be used in the rules "{seg}" to define the path or protein to use
    
 # Define segments to analyze
-segments = ['vp1', 'whole_genome'] # This is only for the expand in rule all
+segments = ['vp1', 'whole-genome'] # This is only for the expand in rule all
 
 # Expand augur JSON paths
 rule all:
     input:
         sequences="data/sequences.fasta",
         metadata="data/metadata.tsv",
-        augur_jsons = expand("auspice/cva10_{segs}.json", segs=segments) ## TODO: replace <your_virus> with actual virus name (Ctrl+H)
+        augur_jsons = expand("auspice/coxsackievirus_A10_{segs}.json", segs=segments)
 
 
 # Rule to handle configuration files and data file paths
@@ -41,7 +41,7 @@ rule files:
         include =               "config/include.txt",
         meta =                  "data/metadata.tsv",
         meta_collab =           "data/meta_collab.tsv", ###TODO: Add an empty tsv file to this path or metadata for one of your sequences
-        meta_manually_added = "data/meta_manually_added.tsv" # Published metadata
+        meta_publications =     "data/meta_publications.tsv" # Published metadata
 
 
 files = rules.files.input
@@ -69,6 +69,54 @@ rule fetch:  ####TODO: go to ingest readme and read through instructions and fil
         """
 
 ##############################
+# Optional: Update strain names & fetch metadata from genbank
+###############################
+
+rule update_strain_names:
+    message:
+        """
+        Updating strain name in metadata.
+        """
+    input:
+        file_in =  files.meta
+    params:
+        backup = "data/strain_names_previous_run.tsv"
+    output:
+        file_out = "data/updated_strain_names.tsv"
+    shell:
+        """
+        time bash scripts/update_strain.sh {input.file_in} {params.backup} {output.file_out}
+        cp {output.file_out} {params.backup}
+        """
+
+# This rule is very slow. Only give accessions as input where you are certain that they have GenBank metadata.
+rule fetch_metadata:
+    message:
+        """
+        Retrieving GenBank metadata for the specified accessions.
+        """
+    input:
+        accessions="data/metadata/HFMD_FRA.txt",
+        config="config/config.yaml"
+    output:
+        metadata="data/metadata/HFMD_FRA.tsv",
+        genbank_metadata="data/genbank_metadata.tsv"
+    params:
+        virus="Coxsackievirus A10"
+    log:
+        "logs/fetch_metadata.log"
+    shell:
+        """
+        python scripts/fetch_genbank_metadata.py \
+            --virus "{params.virus}" \
+            --accession_file {input.accessions} \
+            --output {output.metadata} \
+            --genbank {output.genbank_metadata} \
+            --config {input.config} \
+            2> {log}
+        """
+
+##############################
 # AUGUR CURATE AND MERGE
 # Change the format of the dates in the metadata
 # Attention: ```augur curate``` only accepts iso 8 formats; please make sure that you save e.g. Excel files in the correct format
@@ -82,15 +130,16 @@ rule curate:
         """
     input:
         metadata = files.meta,  # Path to input metadata file
-        meta_collab = files.meta_collab,  # Data shared with us by collaborators
-        meta_manually_added = files.meta_manually_added
+        meta_publications = files.meta_publications,
+        renamed_strains = rules.update_strain_names.output.file_out,
+        genbank_metadata="data/genbank_metadata.tsv"
     params:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
     output:
         metadata = "data/curated/meta_public.tsv",  # Final output file for NCBI metadata
-        meta_collab="data/curated/meta_collab.tsv",  # Curated collaborator metadata
+        meta_publications="data/curated/meta_publications.tsv",  # Curated collaborator metadata
         final_metadata="data/final_meta.tsv"  # Final merged output file
     shell:
         """
@@ -108,42 +157,19 @@ rule curate:
         # Normalize strings and format dates for collab metadata
         augur curate normalize-strings \
             --id-column {params.strain_id_field} \
-            --metadata {input.meta_collab} \
+            --metadata {input.meta_publications} \
         | augur curate format-dates \
             --date-fields {params.date_fields} \
             --no-mask-failure \
             --expected-date-formats {params.expected_date_formats} \
             --id-column {params.strain_id_field} \
-            --output-metadata {output.meta_collab}
+            --output-metadata {output.meta_publications}
         
         # Merge curated metadata
-        augur merge --metadata metadata={output.metadata} meta_collab={output.meta_collab} meta_manually_added={input.meta_manually_added} \
+        augur merge --metadata metadata={output.metadata} meta_publications={input.meta_publications} strain={input.renamed_strains} genbank={input.genbank_metadata} \
             --metadata-id-columns {params.strain_id_field} \
             --output-metadata {output.final_metadata}
         """
-
-##############################
-# Update strain names
-# If strain name == accession -> fetching real strain names from genbank
-# Depending on how many sequences you have, it will run for a long time! >30min. Comment out to skip!
-###############################
-
-rule update_strain_names:
-    message:
-        """
-        Updating strain information in metadata.
-        """
-    input:
-        file_in =  rules.curate.output.final_metadata
-    params:
-        backup = "data/strain_names_previous_run.tsv" ####TODO: provide an empty file for first run
-    output:
-        file_out = "data/updated_strain_names.tsv"
-    shell:
-        """
-        time bash scripts/update_strain.sh {input.file_in} {params.backup} {output.file_out}
-        """
-
 
 ##############################
 # BLAST
@@ -193,8 +219,6 @@ rule blast_sort: #TODO: change the parameters in blast_sort.py (replace lengths 
         
     params:
         range = "{seg}",  # Determines which protein (or whole genome) is processed
-        # min_length = lambda wildcards: {"protein_xy": 2400, "protein_ab": 780, "protein_cd": 180, "protein_ef": 450, "genome": 6000}[wildcards.seg],  # Min length ## DONE replace whole_genome with genome, min length = 6000
-        # max_length = lambda wildcards: {"protein_xy": 4000, "protein_ab": 1300, "protein_cd": 300, "protein_ef": 750, "genome": 8000}[wildcards.seg]  # Max length ## DONE replace whole_genome with genome, max length = 8000
         min_length = lambda wildcards: {"vp1": 700, "whole_genome": 6000}[wildcards.seg],  # Min length ## DONE replace whole_genome with genome, min length = 6000
         max_length = lambda wildcards: {"vp1": 900, "whole_genome": 8000}[wildcards.seg]    
     shell:
@@ -492,7 +516,7 @@ rule export:
         strain_id_field = config["id_field"],
         coloring_fields = "region country published_clade"
     output:
-        auspice_json = "auspice/cva10_{seg}.json"
+        auspice_json = "auspice/coxsackievirus_A10_{seg}.json"
         
     shell:
         """
@@ -507,6 +531,17 @@ rule export:
             --lat-longs {input.lat_longs} \
             --auspice-config {input.auspice_config} \
             --output {output.auspice_json}
+        """
+
+rule rename_whole_genome:
+    message: "Rename whole-genome built"
+    input: 
+        json="auspice/coxsackievirus_A10_whole_genome.json"
+    output:
+        json="auspice/coxsackievirus_A10_whole-genome.json" # easier view in auspice
+    shell:
+        """
+        mv {input.json} {output.json}
         """
         
 rule clean:
