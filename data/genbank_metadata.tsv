@@ -1,0 +1,61 @@
+accession	strain	subgenogroup	country	location	date	age_yrs	sex	diagnosis	doi
+PX441810.1	CVA10_250027197102_FRA25		France		11-Jul-2025	1.417			genbank corrections
+PX441809.1	CVA10_250026513002_FRA25		France		08-Jul-2025	1.0			genbank corrections
+PQ612457.1	CVA10_240022512202_FRA24		France		30-Apr-2024	2.0	F	Herpangina; Fever	genbank corrections
+PQ612456.1	CVA10_240010597002_FRA24		France		19-Feb-2024	2.0	F	HFMD; Fever; GI infection	genbank corrections
+PQ119797.1	CVA10_190048697202_FRA19		France		16-Oct-2019	13.0	M	HFMD	genbank corrections
+PP585452.1	CVA10_2200354688_FRA22		France		20-Jun-2022	2.0	M	HFMD; Fever	genbank corrections
+PP585451.1	CVA10_2200382208_FRA22		France		11-Jul-2022	4.0	M	HFMD; Fever	genbank corrections
+PP585450.1	CVA10_2200276056_FRA22		France		10-May-2022	2.0	F	Herpangina; Fever	genbank corrections
+PP585449.1	CVA10_2200605322_FRA22		France		12-Sep-2022	0.333	M		genbank corrections
+PP585448.1	CVA10_2200279079_FRA22		France		12-May-2022	2.0	F	HFMD; Fever	genbank corrections
+PP585447.1	CVA10_2200347488_FRA22		France		20-Jun-2022	2.0	F	HFMD; Fever	genbank corrections
+PP585446.1	CVA10_2200388976_FRA22		France		27-Jun-2022	2.0	M	HFMD; Fever	genbank corrections
+PP585445.1	CVA10_2200335487_FRA22		France		07-Jun-2022	2.0	F	HFMD; Fever	genbank corrections
+PP585444.1	CVA10_2200286961_FRA22		France		17-Mar-2022	2.0	F	HFMD; Fever	genbank corrections
+PP585443.1	CVA10_2200328939_FRA22		France		10-Jun-2022	1.25	F	HFMD; Fever	genbank corrections
+PP585442.1	CVA10_2200564437_FRA22		France		03-Oct-2022	1.0	M	Rash; Fever	genbank corrections
+PP585441.1	CVA10_2200368077_FRA22		France		27-Jun-2022	2.0	F	Herpangina; Fever	genbank corrections
+PP585440.1	CVA10_2200368069_FRA22		France		28-Jun-2022	1.583	F	HFMD; Fever	genbank corrections
+PP585439.1	CVA10_2000074666_FRA20		France		10-Feb-2020	1.417	F	HFMD; Fever	genbank corrections
+PP585438.1	CVA10_1900600857_FRA19		France		20-Dec-2019	1.417	M	HFMD; Fever	genbank corrections
+PP585437.1	CVA10_1700694928_FRA17		France		24-Oct-2017	2.0	M	Herpangina; Fever	genbank corrections
+OQ091516.1	CVA10_220023515002_FRA22		France		12-Apr-2022	1.9	M	HFMD	genbank corrections
+OQ091515.1	CVA10_3161830871_FRA16		France		25-Apr-2016	0.5	F		genbank corrections
+OQ091514.1	CVA10_180030687202_FRA18		France		21-Jun-2018	2.5	F	HFMD	genbank corrections
+OQ091513.1	CVA10_3162020851_FRA16		France		13-Jul-2016	1.7	M	HFMD	genbank corrections
+OQ091512.1	CVA10_316299001_FRA16		France		20-Oct-2016	2.1	F	HFMD	genbank corrections
+OQ091511.1	CVA10_314199013_FRA14		France		11-Jul-2014	2.4	F	HFMD	genbank corrections
+OQ091510.1	CVA10_314351090_FRA14		France		10-Dec-2014	1.8	F	HFMD	genbank corrections
+OQ091509.1	CVA10_210048713201_FRA21		France		29-Jul-2021	0.417	M	HFMD	genbank corrections
+OQ091508.1	CVA10_210071861002_FRA21		France		10-Dec-2021	1.0	M	HFMD	genbank corrections
+OQ091507.1	CVA10_210040003102b_FRA21		France		02-Jul-2021	0.058	M	HFMD	genbank corrections
+OQ091506.1	CVA10_210044721502_FRA21		France		20-Jul-2021	2.7	F	HFMD	genbank corrections
+OQ091505.1	CVA10_180008927401_FRA17		France		20-Dec-2017	2.4	M		genbank corrections
+OQ091504.1	CVA10_3162661001_FRA16		France		20-Sep-2016	1.4	F	HFMD	genbank corrections
+OQ091503.1	CVA10_170069492202_FRA17		France		24-Oct-2017	1.2	F	HFMD	genbank corrections
+OQ091502.1	CVA10_170048274502_FRA17		France		29-Jun-2017	0.7	M	HFMD	genbank corrections
+OQ091501.1	CVA10_180026036302_FRA18		France		19-May-2018	0.7	F	HFMD	genbank corrections
+OQ091500.1	CVA10_180025413302_FRA18		France		24-May-2018	1.4	M	HFMD	genbank corrections
+OQ091499.1	CVA10_180019901702_FRA18		France		18-Apr-2018	0.8	M	HFMD	genbank corrections
+OQ091498.1	CVA10_170048689502_FRA17		France		27-Jun-2017	2.8	M	HFMD	genbank corrections
+OQ091497.1	CVA10_3161931311_FRA16		France		07-Jul-2016	3.0	F	HFMD	genbank corrections
+OQ091496.1	CVA10_315349094_FRA15		France		08-Dec-2015	2.8	M	HFMD	genbank corrections
+OQ091495.1	CVA10_220020036002_FRA22		France		30-Mar-2022	0.5	F	HFMD	genbank corrections
+OQ091494.1	CVA10_180037571401_FRA18		France		29-Jul-2018	1.8	M		genbank corrections
+OQ091493.1	CVA10_190011053402_FRA19		France		27-Feb-2019	2.5	M	HFMD	genbank corrections
+OQ091492.1	CVA10_180035476302_FRA18		France		18-Jul-2018	0.7	M	HFMD	genbank corrections
+OQ091491.1	CVA10_170070934002_FRA17		France		31-Oct-2017	3.4	F	HFMD	genbank corrections
+OQ091490.1	CVA10_180019901102_FRA18		France		19-Apr-2018	0.8	F	HFMD	genbank corrections
+OQ091489.1	CVA10_190024226902_FRA19		France		13-May-2019	3.8	M	HFMD	genbank corrections
+OQ091488.1	CVA10_190057567701_FRA19		France		06-Nov-2019	0.8	F		genbank corrections
+OQ091487.1	CVA10_190031162102_FRA19		France		28-Jun-2019	2.7	M	HFMD	genbank corrections
+OQ091486.1	CVA10_170067893402_FRA17		France		18-Oct-2017	1.1	F	HFMD	genbank corrections
+OQ091485.1	CVA10_180028154202_FRA18		France		04-Jun-2018	4.8	F	HFMD	genbank corrections
+OK635686.1	CVA10-210044721502-FRA-2021		France	Ile de France	20-Jul-2021	2.7	F	HFMD	PMID: 34713796
+OK635685.1	CVA10-210044443402-FRA-2021		France	Ile de France	20-Jul-2021	7.5	M	HFMD	PMID: 34713796
+LT719060.1	MAD-9937-11	A71	Madagascar	Antsiranana, Scama	2011				genbank corrections
+LT719059.1	MAD-9856-11	A71	Madagascar	Antsiranana, Scama	2011				genbank corrections
+LT719058.1	MAD-9802-11	A71	Madagascar	Antsiranana, Tanambao	2011				genbank corrections
+LT719057.1	MAD-9506-11	A71	Madagascar	Mahajanga, Mahajanga	2011				genbank corrections
+LT719056.1	MAD-3995-11	A71	Madagascar	Mahajanga, Mahajanga	2011				genbank corrections
