@@ -384,7 +384,7 @@ rule refine:
         node_data = "{seg}/results/branch_lengths.json"
     params:
         coalescent = "opt",
-        rooting = lambda wildcards: {"vp1": "mid_point", "whole_genome": "mid_point"}[wildcards.seg], # "FR796483 GQ214176"
+        rooting = "mid_point",  # or use a specific accession ID
         date_inference = "marginal",
         clock_filter_iqd = 3, # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
