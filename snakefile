@@ -138,8 +138,9 @@ rule curate:
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
     output:
-        metadata = "data/curated/meta_public.tsv",  # Final output file for NCBI metadata
+        metadata = "data/curated/meta_ncbi.tsv",  # Final output file for NCBI metadata
         meta_publications="data/curated/meta_publications.tsv",  # Curated collaborator metadata
+        genbank_metadata = "data/curated/meta_genbank.tsv",
         final_metadata="data/final_meta.tsv"  # Final merged output file
     shell:
         """
@@ -164,9 +165,20 @@ rule curate:
             --expected-date-formats {params.expected_date_formats} \
             --id-column {params.strain_id_field} \
             --output-metadata {output.meta_publications}
+
+        # Normalize strings and format dates for collab metadata
+        augur curate normalize-strings \
+            --id-column {params.strain_id_field} \
+            --metadata {input.genbank_metadata} \
+        | augur curate format-dates \
+            --date-fields {params.date_fields} \
+            --no-mask-failure \
+            --expected-date-formats {params.expected_date_formats} \
+            --id-column {params.strain_id_field} \
+            --output-metadata {output.genbank_metadata}
         
         # Merge curated metadata
-        augur merge --metadata metadata={output.metadata} meta_publications={input.meta_publications} strain={input.renamed_strains} genbank={input.genbank_metadata} \
+        augur merge --metadata metadata={output.metadata} meta_publications={output.meta_publications} strain={input.renamed_strains} genbank={output.genbank_metadata} \
             --metadata-id-columns {params.strain_id_field} \
             --output-metadata {output.final_metadata}
         """
@@ -309,7 +321,7 @@ rule reference_gb_to_fasta:
     output:
         reference = "{seg}/results/reference_sequence.fasta"
     run:
-        from Bio import SeqIO 
+        from Bio import SeqIO
         SeqIO.convert(input.reference, "genbank", output.reference, "fasta")
 
 rule align: 
@@ -386,7 +398,7 @@ rule refine:
         coalescent = "opt",
         rooting = "mid_point",  # or use a specific accession ID
         date_inference = "marginal",
-        clock_filter_iqd = 8, # set to 6 if you want more control over outliers
+        clock_filter_iqd = 3, # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # remove for estimation by augur; check literature
         clock_std_dev = 0.0015
@@ -497,6 +509,18 @@ rule clades:
             --output-node-data {output.clade_data}
         """
 
+rule add_url_to_metadata:
+    input:
+        "data/final_meta.tsv"
+    output:
+        "data/final_meta_url.tsv"
+    run:
+        import pandas as pd
+
+        meta = pd.read_csv(input[0], sep="\t", dtype=str)
+        meta['url'] = "https://www.ncbi.nlm.nih.gov/nuccore/" + meta['accession']
+        meta.to_csv(output[0], sep="\t", index=False)
+
 #########################
 #  EXPORT
 #########################
@@ -504,7 +528,7 @@ rule export:
     message: "Creating auspice JSONs"
     input:
         tree = rules.refine.output.tree,
-        metadata = rules.curate.output.final_metadata,
+        metadata = rules.add_url_to_metadata.output,
         branch_lengths = rules.refine.output.node_data,
         traits = rules.traits.output.node_data,
         nt_muts = rules.ancestral.output.node_data,

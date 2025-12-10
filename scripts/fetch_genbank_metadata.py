@@ -257,6 +257,8 @@ class MetadataFetcher:
                         if genotype_match:
                             subgenogroup = genotype_match.group(2)
                     
+                    diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
+                    
                     # Extract collection date
                     date = feature.qualifiers.get("collection_date", [None])[0]
                     if date:
