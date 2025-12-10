@@ -40,6 +40,7 @@ metadata:
         'Respiratory Symptoms': 'Respiratory'
         'respiratory distress': 'Respiratory'
         'rhinitis': 'rhinitis'
+        'bronchitis': 'bronchitis'
         
         # GBS
         'guillain-barré syndrome': 'GBS'
@@ -71,6 +72,7 @@ metadata:
         'hfmd': 'HFMD'
         'hand foot and mouth disease': 'HFMD'
         'hand-foot and mouth disease': 'HFMD'
+        'hand-foot-and-mouth disease': 'HFMD'
         
         # Skin/Lesions
         'Toe lesion': 'Lesion'
@@ -137,59 +139,87 @@ metadata:
         'death': 'Fatality'
         'Died': 'Fatality'
 
+        # Asymptomatic
+        'healthy': 'Asymptomatic'
+        'asymptomatic': 'Asymptomatic'
+        'no symptoms': 'Asymptomatic'
+
     # Grouping all symptoms to major forms
     major_symptoms:
-        # CNS-related conditions
+        Poliomyelitis: Poliomyelitis
+        polio: Poliomyelitis
+        poliomyelitis-like disease: Poliomyelitis
+        poliomyelitis-like paralysis: Poliomyelitis
+
+        AFP: AFP
+        acute flaccid paralysis: AFP
+        acute flaccid myelitis: AFP
+        AFM: AFP
+        paralysis: AFP
+        paralyses: AFP
+        difficulty walking: AFP
+        Myelitis: AFP
+        Ataxia: AFP
+        GBS: AFP
+
+        Cardiogenic shock: Myopericarditis
+        Cardiopulmonary Collapse: Myopericarditis
+        Shock: Myopericarditis
+        Hypotension: Myopericarditis
+        Hyperglycemia: Myopericarditis
+
+        conjunctivitis: Hemorrhagic conjunctivitis
+
+        Respiratory distress: Pneumonia
+        acute respiratory disease: Pneumonia
+
+        upper respiratory tract infection: URTI
+        URTI: URTI
+        Cough: URTI
+        Influenza-like illness: URTI
+        Respiratory Symptoms: URTI
+        rhinitis: URTI
+        pharyngitis: URTI
+
+        asthmatic bronchitis: Airway exacerbation
+
+        HFMD: HFMD
+        Mild HFMD: HFMD
+        Light HFMD: HFMD
+        Severe HFMD: HFMD
+
+        Atypical HFMD: Atypical HFMD
+        Onychomadesis: Atypical HFMD
+
+        Aseptic Meningitis: Aseptic Meningitis
+        Meningitis: Aseptic Meningitis
+        Meningeal syndrome: Aseptic Meningitis
+
         Encephalitis: CNS
-        Aseptic Meningitis: CNS
-        Meningitis: CNS
         meningoencephalitis: CNS
-        Meningeal syndrome: CNS
-        Opsomyoclonus Syndrome: CNS
-        Myoclonic jerk: CNS
         CNS: CNS
         Lethargy: CNS
         Seizure: CNS
         convulsion: CNS
-        
-        # Fatality-related conditions
+        Myoclonic jerk: CNS
+
+        Herpangina: Herpangina
+        Stomatitis: Oral disease
+        Oral Ulcers: Oral disease
+
+        Vomiting; Diarrhea: GI infection
+        Diarrhea: GI infection
+        GI infection: GI infection
+
+        Rash: Rash-associated
+        vesicular rash: Rash-associated
+        Lesion: Rash-associated
+
+        Sepsis: Sepsis
+
         Fatality: Fatality
-        
-        # AFP-related conditions
-        GBS: AFP
-        Myelitis: AFP
-        AFP: AFP
-        Ataxia: AFP
-        
-        # HFMD-related conditions
-        HFMD: HFMD
-        Atypical HFMD: Atypical HFMD
-        Onychomadesis: Atypical HFMD
-        Severe HFMD: HFMD
-        Light HFMD: HFMD
-        Mild HFMD: HFMD
-        
-        # Other categories
-        Sepsis: other
-        Respiratory: other
-        rhinitis: other
-        Fever: other
-        Vomiting; Diarrhea: other
-        Diarrhea: other
-        GI infection: other
-        Oral Ulcers: other
-        Stomatitis: other
-        Hypotension: other
-        Hyperglycemia: other
-        Cardiogenic shock: other
-        Cardiopulmonary Collapse: other
-        Shock: other
-        Rash: other
-        vesicular rash: other
-        Lesion: other
-        Herpangina: other
-        conjunctivitis: other
-        pharyngitis: other
+
+        Fever: Other
 
     isolation_source:
         # feces

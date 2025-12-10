@@ -69,7 +69,7 @@ class MetadataFetcher:
             field_lower = field.lower()
 
             # Regular expressions for parsing
-            host_regex = r"(homo sapiens|human|other hosts)"
+            host_regex = r"(homo sapiens|human|other hosts|child)"
             sex_regex = r"\b(male|female|m|f|man|woman|boy|girl|h)\b"
             age_regex = r"(\d+\.?\d*|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s*(years?|months?|days?|y|m|d)"
             symptom_pattern = "|".join(map(re.escape, self.symptom_list.keys()))
