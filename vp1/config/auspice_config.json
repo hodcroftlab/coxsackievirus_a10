@@ -1,5 +1,5 @@
 {
-  "title": "Genomic Epidemiology of Coxsakievirus A10 VP1",
+  "title": "Genomic Epidemiology of Coxsackievirus A10 VP1",
   "maintainers": [
     {
       "name": "Alejandra González-Sánchez",
@@ -46,15 +46,34 @@
       "key": "isolate-lineage-source",
       "title": "Isolation Source",
       "type": "categorical"
-    }
-  ],
+    },
+    {
+      "key": "age",
+      "title": "Age (years)",
+      "type": "ordinal"
+    },
+    {
+      "key": "gender",
+      "title": "Gender",
+      "type": "categorical"
+    },
+    {
+      "key": "diagnosis",
+      "title": "Symptoms",
+      "type": "categorical"
+    },
+    {
+      "key": "author",
+      "title": "Authors",
+      "type": "categorical"
+    }  ],
   "geo_resolutions": [
     {
       "key": "country",
       "title": "Country"
     },
     {
-      "key": "place",
+      "key": "location",
       "title": "Areas"
     },
     {
@@ -78,6 +97,7 @@
   ],
   "filters": [
     "country",
+    "region",
     "author"
   ]
 }
