@@ -9,7 +9,7 @@ country	Senegal	#99DD7C
 country	Cameroon	#5AA84A
 country	Central African Republic	#6ABA5A
 country	Mauritania	#8CBF6A
-		
+
 country	Western Sahara	#B2FF9B
 country	Burundi	#629F4B
 country	Comoros	#72BF5B
@@ -53,7 +53,7 @@ country	Eswatini	#498F5B
 country	Lesotho	#59AF6B
 country	Namibia	#69CF7B
 country	South Africa	#79EF8B
-		
+
 country	Denmark	#FF5A5A
 country	Estonia	#FF4A4A
 country	Finland	#C08180
@@ -64,7 +64,7 @@ country	Lithuania	#FF5959
 country	Norway	#FF4949
 country	Sweden	#FF3939
 country	United Kingdom	#900C3F
-		
+
 country	Albania	#FF7F4D
 country	Andorra	#FF6F4D
 country	Bosnia and Herzegovina	#FF5F4D
@@ -80,10 +80,10 @@ country	Serbia	#FF7F4D
 country	Slovenia	#FF6F4D
 country	Spain	#A21815
 country	Vatican City	#FF4F4D
-		
+
 country	Belarus	#A30000
 country	Bulgaria	#930000
-country	Czech Republic	#830000
+country	Czechia	#830000
 country	Hungary	#730000
 country	Moldova	#630000
 country	Poland	#530000
@@ -91,7 +91,7 @@ country	Romania	#430000
 country	Russia	#330000
 country	Slovakia	#230000
 country	Ukraine	#130000
-		
+
 country	Austria	#FFAAAA
 country	Belgium	#FF9999
 country	France	#FF5733
@@ -101,8 +101,8 @@ country	Luxembourg	#FF5555
 country	Monaco	#FF4444
 country	Netherlands	#FF3333
 country	Switzerland	#FF2222
-		
-		
+
+
 country	Antigua and Barbuda	#FF9D27
 country	Bahamas	#FFAD37
 country	Barbados	#FF9E28
@@ -126,7 +126,7 @@ country	Panama	#FFB33D
 country	Canada	#FF9A1B
 country	Mexico	#E2942B
 country	USA	#F2A43B
-		
+
 country	China	#0E3A8A
 country	Hong Kong	#0E3A89
 country	Japan	#60A5FA
@@ -159,7 +159,7 @@ country	Singapore	#6E1985
 country	Thailand	#8A1DAD
 country	Timor-Leste	#AA23D1
 country	Vietnam	#C229F4
-		
+
 country	Armenia	#214EBC
 country	Azerbaijan	#316ECC
 country	Bahrain	#418EDC
@@ -210,13 +210,13 @@ region	eastern africa	#058A3C
 region	central africa	#13F672
 region	western africa	#9DFBC4
 region	southern africa	#C8E6C9
-		
+
 region	europe	#FD151B
 region	northern europe	#FD151B
 region	southern europe	#F53500
 region	eastern europe	#AC0006
 region	western europe	#FF5733
-		
+
 region	caribbean	#FFB326
 region	central america	#C99739
 region	north america	#FEC601
@@ -229,18 +229,18 @@ region	central asia	#0D47A1
 region	southern asia	#0A0074
 region	south-eastern asia	#8157C4
 region	western asia	#6C0D79
-		
+
 region	oceania	#26A69A
-		
-clade	A	#302bd1
-clade	B	#4e6fff
-clade	C	#5fb3f3
-clade	D	#65ae96
-clade	E	#b1ec84
-clade	F	#e8ed5d
-clade	H	#ff993f
-clade	G	#ffd84c
-		
+
+age range	0-3 m/o	#FFB6C1
+age range	4-6 m/o	#FF69B4
+age range	7-12 m/o	#FF1493
+age range	<1 y/o	#DB7093
+age range	1-5 y/o	#C71585
+age range	6-10 y/o	#8B008B
+age range	11-17 y/o	#800080
+age range	18+ y/o	#4B0082
+
 published_clade	A	#302bd1
 published_clade	B	#4466f9
 published_clade	C	#45a2e8
@@ -249,3 +249,4 @@ published_clade	E	#8ace56
 published_clade	F	#e0e74a
 published_clade	G	#f38025
 published_clade	H	#e94922
+	

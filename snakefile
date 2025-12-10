@@ -96,13 +96,13 @@ rule fetch_metadata:
         Retrieving GenBank metadata for the specified accessions.
         """
     input:
-        accessions="data/metadata/HFMD_FRA.txt",
-        config="config/config.yaml"
+        accessions="data/metadata/FRA.txt",
+        config="config/config.yaml" # include symptom list and isolation source mapping
     output:
-        metadata="data/metadata/HFMD_FRA.tsv",
-        genbank_metadata="data/genbank_metadata.tsv"
+        metadata="data/metadata/FRA.tsv",
     params:
-        virus="Coxsackievirus A10"
+        virus="Coxsackievirus A10",
+        genbank_metadata="data/genbank_metadata.tsv"
     log:
         "logs/fetch_metadata.log"
     shell:
@@ -111,7 +111,7 @@ rule fetch_metadata:
             --virus "{params.virus}" \
             --accession_file {input.accessions} \
             --output {output.metadata} \
-            --genbank {output.genbank_metadata} \
+            --genbank {params.genbank_metadata} \
             --config {input.config} \
             2> {log}
         """
@@ -275,7 +275,7 @@ rule filter:
         sequences_per_group = 4000, # add a limit per group
         strain_id_field= config["id_field"],
         min_date = 1980,  # add a reasonable min date
-        min_length = lambda wildcards: {"vp1": 700, "whole_genome": 6000}[wildcards.seg], 
+        min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg], 
         max_length = lambda wildcards: {"vp1": 900, "whole_genome": 8000}[wildcards.seg]  
     shell:
         """
@@ -386,7 +386,7 @@ rule refine:
         coalescent = "opt",
         rooting = "mid_point",  # or use a specific accession ID
         date_inference = "marginal",
-        clock_filter_iqd = 3, # set to 6 if you want more control over outliers
+        clock_filter_iqd = 8, # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # remove for estimation by augur; check literature
         clock_std_dev = 0.0015
@@ -490,7 +490,8 @@ rule clades:
 
     shell:
         """
-        augur clades --tree {input.tree} \
+        augur clades \
+            --tree {input.tree} \
             --mutations {input.nuc_muts} {input.aa_muts} \
             --clades {input.clades} \
             --output-node-data {output.clade_data}
@@ -514,7 +515,6 @@ rule export:
         auspice_config = files.auspice_config
     params:
         strain_id_field = config["id_field"],
-        coloring_fields = "region country published_clade"
     output:
         auspice_json = "auspice/coxsackievirus_A10_{seg}.json"
         
@@ -527,7 +527,6 @@ rule export:
             --node-data {input.branch_lengths} {input.traits} {input.nt_muts} \
                 {input.aa_muts} {input.clades} \
             --colors {input.colors} \
-            --color-by-metadata {params.coloring_fields} \
             --lat-longs {input.lat_longs} \
             --auspice-config {input.auspice_config} \
             --output {output.auspice_json}
