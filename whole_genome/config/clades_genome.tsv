@@ -3,29 +3,31 @@ A	nuc	763	T
 A	nuc	873	T
 A	VP4	7	S
 A	VP1	13	S
+
 B	nuc	1461	T
 B	nuc	3141	T
 B	nuc	3213	T
 B	nuc	4479	G
-C	nuc	693	A
-C	nuc	1158	A
-C	VP1	21	S
+
+C	nuc	1260	G
+C	nuc	5994	C
+C	VP1	240	E
+
 D	nuc	2472	C
 D	nuc	2550	C
 D	nuc	2601	C
 D	nuc	2671	T
+
 E	nuc	2790	G
 E	nuc	3797	T
 E	VP1	26	I
 E	VP1	142	S
 E	VP1	178	I
+
 F	nuc	3063	A
 F	VP1	33	V
 F	VP1	78	T
-G	nuc	3243	T
-G	VP1	124	I
-G	VP1	101	G
-C/G	nuc	118	T
-C/G	nuc	1677	G
-C/G	2B	95	M
-C/G	VP1	16	A
+
+G	nuc	1638	T
+G	nuc	5085	G
+G	3D	75	Q
