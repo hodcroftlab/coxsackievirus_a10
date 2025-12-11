@@ -11,6 +11,15 @@
 if not config:
     configfile: "config/config.yaml"
 
+from dotenv import load_dotenv
+import os
+from datetime import date
+import glob
+
+load_dotenv(".env")
+REMOTE_GROUP = os.getenv("REMOTE_GROUP")
+UPLOAD_DATE = os.getenv("UPLOAD_DATE") or date.today().isoformat()
+
 ###############
 #ensure vp1 name similar to that found in the reference_sequence.gb CDS
 wildcard_constraints:
@@ -301,7 +310,7 @@ rule filter:
             --group-by {params.group_by} \
             --sequences-per-group {params.sequences_per_group} \
             --min-date {params.min_date} \
-            --output {output.sequences} \
+            --output-sequences {output.sequences} \
             --min-length {params.min_length} 
         """
 # --exclude-where ... or other parameters can be added, see `augur filter --h` for more options
@@ -400,7 +409,7 @@ rule refine:
         date_inference = "marginal",
         clock_filter_iqd = 3, # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
-        clock_rate = 0.004, # remove for estimation by augur; check literature
+        clock_rate = 0.004, # clockor2 (2.7–4.2e-3)
         clock_std_dev = 0.0015
 
     shell:
@@ -566,7 +575,7 @@ rule rename_whole_genome:
         """
         mv {input.json} {output.json}
         """
-        
+
 rule clean:
     message: "Removing directories: {params}"
     params:
@@ -575,3 +584,21 @@ rule clean:
         "temp/*"
     shell:
         "rm -rfv {params}"
+
+rule upload: ## make sure you're logged in to Nextstrain
+    message: "Uploading auspice JSONs to Nextstrain"
+    input:
+        jsons = glob.glob("auspice/*.json"),
+    params:
+        remote_group=REMOTE_GROUP,
+        date=UPLOAD_DATE,
+    shell:
+        """
+        nextstrain login
+        nextstrain remote upload \
+            nextstrain.org/groups/{params.remote_group}/ \
+            {input.jsons}
+        nextstrain logout
+        mkdir -p auspice/{params.date}
+        cp {input.jsons} auspice/{params.date}/
+        """
