@@ -317,6 +317,10 @@ location	Mahatalaky	-24.783333	47.083333
 location	Scama	-12.46667	49.03333
 location	Tsaratanana	-16.797222	47.652778
 location	Tsimenatse	-23.35864	43.67434
+location	Mahajanga	-15.716667	46.316667
+location	Antsiranana	-12.3173	49.2919
+location	Tanambao	-16.494394	49.542058
+
 
 country	ghana	8.0300284	-1.080027
 location	Accra	5.6037	-0.187
@@ -365,6 +369,7 @@ location	Changchun	43.8799	125.3245
 location	Changsha	28.2282	112.9388
 location	Chengdu	30.5728	104.0668
 location	Chongqing	29.5630	106.5516
+location	Deyang	31.1333	104.4000
 location	Dong Nai	10.9725	106.9487
 location	DongNai	10.9400	106.8100
 location	Dalian	38.9140	121.6147
@@ -421,6 +426,7 @@ location	Shan’xi	35.0992	110.0400
 location	Shenyang	41.8057	123.4315
 location	Shenzhen	22.5431	114.0579
 location	Sichuan	30.6532	104.0665
+location	Sichuan Province	31.456781	102.843018
 location	Taixing	32.1687	120.0142
 location	Taizhou	32.4933	119.9017
 location	Tianjin	39.3434	117.3616
@@ -438,6 +444,7 @@ location	Yantai	37.4638	121.4479
 location	Yunnan	24.3570	102.7090
 location	Yuyao	30.0491	121.1546
 location	Yn	24.3570	102.7090
+location	Yunnan Province, Zhoutong Prefecture	27.3333	103.7167
 location	Yunnan Province	24.3570	102.7090
 location	Zhaotong Prefecture	27.3105	106.9225
 location	Zhoutong Prefecture	27.3105	106.9225
@@ -458,10 +465,14 @@ location	Kandaldal	17.5155	76.9571
 location	Kolhapur	16.7050	74.2433
 location	Kerala	10.8505	76.2711
 location	Pune	18.5204	73.8567
+location	Uttar Pradesh State	26.955488	80.538897
+location	Karnataka State	14.5203896	75.7223521
+location	Bihar State	25.6000	85.0000
 
 country	japan	35.68536	139.75309
 location	Aichi	35.1802	136.9066
 location	Aichi Prefecture	35.1802	136.9066
+location	Fukuoka	33.6000	130.4167
 location	Hiroshima	34.3852	132.4553
 location	Hokkaido	43.2203	142.8635
 location	Isehara	35.3936	139.3149
@@ -637,6 +648,11 @@ location	Vinh Phuc	21.3204	105.6037
 location	Vung Tau	10.4114	107.1362
 location	Ximen	23.1352	113.2466
 location	Yunlin	23.7092	120.4317
+location	Ninh Binh	20.2539	105.9750
+location	Ho Chi Minh	10.7756	106.7019
+location	Cho Chi Minh	10.7760	106.7000
+location	Thai Binh	20.4500	106.3333
+location	Hai Phong	20.8561	106.6822
 
 
 country	taiwan	23.6978	120.9605
@@ -694,6 +710,7 @@ location	Bialystok	53.1325	23.1686
 country	russia	55.751244	37.618423
 location	Bashkortostan	54.7131	55.9380
 location	Birobidzhan	48.7804	132.9116
+location	Dagestan	43.0543	46.9092
 location	Ekaterinburg	56.8389	60.6057
 location	Irkutsk Region	52.047	103.497
 location	Kataysk	56.2900	62.5830
@@ -895,11 +912,4 @@ location	Rhineland Palatinate	49.7468	7.1620
 location	Ulm	48.4011	9.9876
 
 
-location	Fukuoka	33.6000	130.4167
-location	Sichuan Province	31.456781	102.843018
-location	Uttar Pradesh State	26.955488	80.538897
-location	Karnataka State	14.5203896	75.7223521
-location	Bihar State	25.6000	85.0000
-location	Mahajanga	-15.716667	46.316667
-location	Tanambao	-16.494394	49.542058
-location	Dagestan	43.0543	46.9092
+

@@ -140,7 +140,7 @@ metadata:
         'Died': 'Fatality'
 
         # Asymptomatic
-        'healthy': 'Asymptomatic'
+        'healthy': 'Healthy'
         'asymptomatic': 'Asymptomatic'
         'no symptoms': 'Asymptomatic'
 
