@@ -30,7 +30,7 @@ auspice/*
 data/metadata
 data/final_meta.tsv
 ingest/data/references/nextclade.tsv
-data/strain_names_previous_run.tsv
+data/*
 
 # files with sensitive information
 .env
