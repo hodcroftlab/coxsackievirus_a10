@@ -274,8 +274,8 @@ rule filter:
     output:
         sequences = "{seg}/results/filtered.fasta"
     params:
-        group_by = "country",
-        sequences_per_group = 4000, # add a limit per group
+        group_by = "country year",
+        sequences_per_group = 200, # add a limit per group
         strain_id_field= config["id_field"],
         min_date = 1980,  # add a reasonable min date
         min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg], 
