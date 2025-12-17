@@ -147,48 +147,30 @@ rule curate:
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
     output:
-        metadata = "data/curated/meta_ncbi.tsv",  # Final output file for NCBI metadata
-        meta_publications="data/curated/meta_publications.tsv",  # Curated collaborator metadata
-        genbank_metadata = "data/curated/meta_genbank.tsv",
-        final_metadata="data/final_meta.tsv"  # Final merged output file
+        final_metadata="data/final_meta.tsv"
     shell:
         """
+        # Remove XXXX-XX-XX for unknown dates
+        sed 's/XXXX-XX-XX//g' {input.metadata} > "temp/fixed_metadata.tsv"
+               
+        # Merge curated metadata
+        augur merge --metadata metadata="temp/fixed_metadata.tsv" strain={input.renamed_strains} \
+            --metadata-id-columns {params.strain_id_field} \
+            --output-metadata temp/merged_metadata.tsv
+
+        augur merge --metadata meta=temp/merged_metadata.tsv meta_publications={input.meta_publications} genbank={input.genbank_metadata} \
+            --metadata-id-columns {params.strain_id_field} \
+            --output-metadata temp/merged_metadata2.tsv
+        
         # Normalize strings for publication metadata
         augur curate normalize-strings \
             --id-column {params.strain_id_field} \
-            --metadata {input.metadata} \
+            --metadata temp/merged_metadata2.tsv \
         | augur curate format-dates \
             --date-fields {params.date_fields} \
             --no-mask-failure \
             --expected-date-formats {params.expected_date_formats} \
             --id-column {params.strain_id_field} \
-            --output-metadata {output.metadata}
-        
-        # Normalize strings and format dates for collab metadata
-        augur curate normalize-strings \
-            --id-column {params.strain_id_field} \
-            --metadata {input.meta_publications} \
-        | augur curate format-dates \
-            --date-fields {params.date_fields} \
-            --no-mask-failure \
-            --expected-date-formats {params.expected_date_formats} \
-            --id-column {params.strain_id_field} \
-            --output-metadata {output.meta_publications}
-
-        # Normalize strings and format dates for collab metadata
-        augur curate normalize-strings \
-            --id-column {params.strain_id_field} \
-            --metadata {input.genbank_metadata} \
-        | augur curate format-dates \
-            --date-fields {params.date_fields} \
-            --no-mask-failure \
-            --expected-date-formats {params.expected_date_formats} \
-            --id-column {params.strain_id_field} \
-            --output-metadata {output.genbank_metadata}
-        
-        # Merge curated metadata
-        augur merge --metadata metadata={output.metadata} meta_publications={output.meta_publications} strain={input.renamed_strains} genbank={output.genbank_metadata} \
-            --metadata-id-columns {params.strain_id_field} \
             --output-metadata {output.final_metadata}
         """
 
@@ -407,7 +389,7 @@ rule refine:
         coalescent = "opt",
         rooting = "mid_point",  # or use a specific accession ID
         date_inference = "marginal",
-        clock_filter_iqd = 3, # set to 6 if you want more control over outliers
+        clock_filter_iqd = lambda wildcards: {"vp1": 3, "whole_genome": 8}[wildcards.seg],  # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # clockor2 (2.7–4.2e-3)
         clock_std_dev = 0.0015
@@ -580,8 +562,11 @@ rule clean:
     message: "Removing directories: {params}"
     params:
         "*/results/*",
-        "auspice/*",
+        "auspice/*.json",
         "temp/*"
+        "ingest/data/*.*",
+        "data/sequences.fasta",
+        "data/metadata.tsv",
     shell:
         "rm -rfv {params}"
 
