@@ -87,7 +87,7 @@
       "type": "continuous"
     },
     {
-      "key": "author",
+      "key": "abbr_authors",
       "title": "Authors",
       "type": "categorical"
     }  ],
