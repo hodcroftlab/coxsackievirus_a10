@@ -59,7 +59,6 @@ LT719059	MAD-9856-11	A71	Madagascar	Antsiranana	2011				genbank corrections
 LT719058	MAD-9802-11	A71	Madagascar	Antsiranana	2011				genbank corrections
 LT719057	MAD-9506-11	A71	Madagascar	Mahajanga	2011				genbank corrections
 LT719056	MAD-3995-11	A71	Madagascar	Mahajanga	2011				genbank corrections
-AB109018	02-244NPC1		Japan	Fukuoka					genbank corrections
 LC707424	119-QJ-YN-CHN-2021-CVA10		China	Yunnan	2021			HFMD	genbank corrections
 LC707414	88-QJ-YN-CHN-2021-CVA10		China	Yunnan	2021			HFMD	genbank corrections
 LC707385	9-QJ-YN-CHN-2021-CVA10		China	Yunnan	2021			HFMD	genbank corrections
@@ -635,3 +634,11 @@ OP244649	2020-207-SX-CHN-CVA10		China	Shaanxi	2020
 OP762484	Hu/RU/Khanty-Mansiysk/2022/CV-A10/799		Russia	Siberia					
 OP948138	SPb_9562/22EVI-mi/DA/2022/RU		Russia	Dagestan		1.5			
 OP948149	SPb_10187/22EVI/Saratov/2022/RU		Russia	Saratov		1.5			
+AB109018	02-244NPC1		Japan	Fukuoka	2002				genbank corrections
+AB167982	03-137NPR2		Japan	Fukuoka	2003				genbank corrections
+AB167983	03-139NGR2		Japan	Fukuoka	2003				genbank corrections
+AB167984	03-146NPC2		Japan	Fukuoka	2003				genbank corrections
+AB167985	03-148NPC3		Japan	Fukuoka	2003				genbank corrections
+AB167986	03-150NPC3		Japan	Fukuoka	2003				genbank corrections
+AB167987	03-152NPR2		Japan	Fukuoka	2003				genbank corrections
+AB167988	03-154NPR3		Japan	Fukuoka	2003				genbank corrections
