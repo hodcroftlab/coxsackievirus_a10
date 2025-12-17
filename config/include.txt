@@ -1,1 +1,6 @@
 MF422532
+
+# only B sequence
+MF422531
+
+JX307651
