@@ -41,12 +41,14 @@ rule nextclade:
         nextclade = "data/nextclade.tsv"
     params:
         dataset = "data/references/",
-        output_columns = "seqName clade qc.overallScore qc.overallStatus alignmentScore  alignmentStart  alignmentEnd  coverage dynamic"
-    threads: 8
+        output_columns = "seqName clade qc.overallScore qc.overallStatus alignmentScore  alignmentStart  alignmentEnd  coverage dynamic",
+        min_length = "550"
+    threads: workflow.cores
     shell:
         """
         nextclade3 run -D {params.dataset}  -j {threads} \
                           --output-columns-selection {params.output_columns} \
+                          --min-length {params.min_length} \
                           --output-tsv {output.nextclade} \
                           {input.sequences}
         """
