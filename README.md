@@ -1,6 +1,6 @@
 # Coxsackievirus A10 Nextstrain Analysis
 
-This repository provides a comprehensive Nextstrain analysis of Coxsackievirus A10. You can choose to perform either a VP1 run (>=700 base pairs) or a whole genome run (>=6000 base pairs).
+This repository provides a comprehensive Nextstrain analysis of Coxsackievirus A10. You can choose to perform either a VP1 run (>=600 base pairs) or a whole genome run (>=6400 base pairs).
 
 For those unfamiliar with Nextstrain or needing installation guidance, please refer to the [Nextstrain documentation](https://docs.nextstrain.org/en/latest/).
 
