@@ -149,7 +149,7 @@ rule curate:
     shell:
         """               
         # Merge curated metadata
-        augur merge --metadata metadata={input.metadata} strain={input.renamed_strains} meta_publications={input.meta_publications} genbank={input.genbank_metadata} \
+        augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} strain={input.renamed_strains} \
             --metadata-id-columns {params.strain_id_field} \
             --output-metadata temp/merged_metadata.tsv
 
@@ -380,7 +380,7 @@ rule refine:
         coalescent = "opt",
         rooting = "mid_point",  # or use a specific accession ID
         date_inference = "marginal",
-        clock_filter_iqd = lambda wildcards: {"vp1": 3, "whole_genome": 8}[wildcards.seg],  # set to 6 if you want more control over outliers
+        clock_filter_iqd = lambda wildcards: {"vp1": 4, "whole_genome": 8}[wildcards.seg],  # set to 6 if you want more control over outliers
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # clockor2 (2.7–4.2e-3)
         clock_std_dev = 0.0015
