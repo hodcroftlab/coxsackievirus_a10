@@ -9,3 +9,307 @@ curate:
   # These date formats should use directives expected by datetime
   # See https://docs.python.org/3.9/library/datetime.html#strftime-and-strptime-format-codes
   expected_date_formats: ['%Y', '%m.%Y', '%d.%m.%Y', "%b-%Y", "%d-%b-%Y","%Y-%m-%d"]
+
+# Config parameters related to the metadata curation
+metadata:
+    # List of symptoms related to clinical cases
+    # Define a mapping for full terms to their abbreviations and standardized names
+    symptom_list:
+        # AFP-related
+        'poliomyelitis-like disease': 'AFP'
+        'acute flaccid paralysis': 'AFP'
+        'paralysis': 'AFP'
+        'poliomyelitis-like paralysis': 'AFP'
+        'afp': 'AFP'
+        'acute flaccid myelitis': 'AFP'
+        'afm': 'AFP'
+        'polio': 'AFP'
+        'difficulty walking': 'AFP'
+        'paralyses': 'AFP'
+        
+        # Ataxia
+        'Cerebellar ataxia': 'Ataxia'
+        'Cerebellitis': 'Ataxia'
+        
+        # Respiratory
+        'upper respiratory tract infection': 'Respiratory'
+        'acute respiratory disease': 'Respiratory'
+        'asthmatic bronchitis': 'Respiratory'
+        'Cough': 'Respiratory'
+        'Influenza-like illness': 'Respiratory'
+        'Respiratory Symptoms': 'Respiratory'
+        'respiratory distress': 'Respiratory'
+        'rhinitis': 'rhinitis'
+        'bronchitis': 'bronchitis'
+        
+        # GBS
+        'guillain-barré syndrome': 'GBS'
+        'guillain-barrésyndrome': 'GBS'
+        
+        # Fever
+        'febrile illness': 'Fever'
+        'pyrexia': 'Fever'
+        'fever': 'Fever'
+        
+        # GI symptoms
+        'v&d': 'Vomiting; Diarrhea'
+        'diarrhoea': 'Diarrhea'
+        'diarrhea': 'Diarrhea'
+        'Gastroenteritis': 'GI infection'
+        'Gastrointestinal': 'GI infection'
+        
+        # Myelitis
+        'transverse myelitis': 'Myelitis'
+        
+        # HFMD variants
+        'severe': 'Severe HFMD'
+        'light': 'Light HFMD'
+        'mild': 'Mild HFMD'
+        'Atypical hand foot and mouth disease': 'Atypical HFMD'
+        'atypical hfmd': 'Atypical HFMD'
+        'HFMD; Onychomadesis': 'Atypical HFMD'
+        'HFMD, Onychomadesis': 'Atypical HFMD'
+        'hfmd': 'HFMD'
+        'hand foot and mouth disease': 'HFMD'
+        'hand-foot and mouth disease': 'HFMD'
+        'hand-foot-and-mouth disease': 'HFMD'
+        
+        # Skin/Lesions
+        'Toe lesion': 'Lesion'
+        'vesicular': 'vesicular rash'
+        'rash with vesicles': 'vesicular rash'
+        'skin rash': 'Rash'
+        'exanthema': 'Rash'
+        'rash': 'Rash'
+        'Skin': 'Rash'
+        'eczema': 'Rash'
+        
+        # Mouth/Throat
+        'Gingivostomatitis': 'Stomatitis'
+        'oral ulcers': 'Oral Ulcers'
+        'herpangina': 'Herpangina'
+        'herpangine': 'Herpangina'
+        'conjunctivitis': 'conjunctivitis'
+        'pharyngitis': 'pharyngitis'
+        
+        # Infections
+        'sepsis': 'Sepsis'
+        'neonatal sepsis': 'Sepsis'
+        
+        # Neurological
+        'Seizure': 'Seizure'
+        'convulsion': 'convulsion'
+        'cns symptoms': 'CNS'
+        'cns involvement': 'CNS'
+        'cns disorder': 'CNS'
+        'neurological': 'CNS'
+        'severe neurological involvement': 'CNS'
+        'myoclonic jerk': 'Myoclonic jerk'
+        'myoclonus': 'Myoclonic jerk'
+        'lethargy': 'Lethargy'
+        'lethargic': 'Lethargy'
+        
+        # Cardiovascular
+        'hypotension': 'Hypotension'
+        'hyperglycemia': 'Hyperglycemia'
+        'severe pulmonary hemorrhage': 'Cardiopulmonary Collapse'
+        'pulmonary hemorrhage': 'Cardiopulmonary Collapse'
+        'Acute cardiogenic shock': 'Cardiogenic shock'
+        'Acute cardiogenic shock, fatal': 'Cardiogenic shock; Fatality'
+        'cardiopulmonary collapse': 'Cardiopulmonary Collapse'
+        'Shock': 'Shock'
+        
+        # Meningitis/Encephalitis
+        'neck stiffness; vomiting': 'Meningitis'
+        'aseptic meningitis': 'Aseptic Meningitis'
+        'Benign intracranial hypertension': 'Meningitis'
+        'Meningitis': 'Meningitis'
+        'meningoencephalitis': 'meningoencephalitis'
+        'encephalytis': 'Encephalitis'
+        'Encephalitis': 'Encephalitis'
+        'Encéphalite': 'Encephalitis'
+        'Meningeal syndrome': 'Meningeal syndrome'
+        
+        # Other
+        'Onychomadesis': 'Onychomadesis'
+        
+        # Fatality
+        '(death)': 'Fatality'
+        'fatal': 'Fatality'
+        'death': 'Fatality'
+        'Died': 'Fatality'
+
+        # Asymptomatic
+        'healthy': 'Healthy'
+        'asymptomatic': 'Asymptomatic'
+        'no symptoms': 'Asymptomatic'
+
+    # Grouping all symptoms to major forms
+    major_symptoms:
+        Poliomyelitis: Poliomyelitis
+        polio: Poliomyelitis
+        poliomyelitis-like disease: Poliomyelitis
+        poliomyelitis-like paralysis: Poliomyelitis
+
+        AFP: AFP
+        acute flaccid paralysis: AFP
+        acute flaccid myelitis: AFP
+        AFM: AFP
+        paralysis: AFP
+        paralyses: AFP
+        difficulty walking: AFP
+        Myelitis: AFP
+        Ataxia: AFP
+        GBS: AFP
+
+        Cardiogenic shock: Myopericarditis
+        Cardiopulmonary Collapse: Myopericarditis
+        Shock: Myopericarditis
+        Hypotension: Myopericarditis
+        Hyperglycemia: Myopericarditis
+
+        conjunctivitis: Hemorrhagic conjunctivitis
+
+        Respiratory distress: Pneumonia
+        acute respiratory disease: Pneumonia
+
+        upper respiratory tract infection: URTI
+        URTI: URTI
+        Cough: URTI
+        Influenza-like illness: URTI
+        Respiratory Symptoms: URTI
+        rhinitis: URTI
+        pharyngitis: URTI
+
+        asthmatic bronchitis: Airway exacerbation
+
+        HFMD: HFMD
+        Mild HFMD: HFMD
+        Light HFMD: HFMD
+        Severe HFMD: HFMD
+
+        Atypical HFMD: Atypical HFMD
+        Onychomadesis: Atypical HFMD
+
+        Aseptic Meningitis: Aseptic Meningitis
+        Meningitis: Aseptic Meningitis
+        Meningeal syndrome: Aseptic Meningitis
+
+        Encephalitis: CNS
+        meningoencephalitis: CNS
+        CNS: CNS
+        Lethargy: CNS
+        Seizure: CNS
+        convulsion: CNS
+        Myoclonic jerk: CNS
+
+        Herpangina: Herpangina
+        Stomatitis: Oral disease
+        Oral Ulcers: Oral disease
+
+        Vomiting; Diarrhea: GI infection
+        Diarrhea: GI infection
+        GI infection: GI infection
+
+        Rash: Rash-associated
+        vesicular rash: Rash-associated
+        Lesion: Rash-associated
+
+        Sepsis: Sepsis
+
+        Fatality: Fatality
+
+        Fever: Other
+
+    isolation_source:
+        # feces
+        'feces': 'feces'
+        'stool': 'feces'
+        'stools': 'feces'
+        'faeces': 'feces'
+        'fecal': 'feces'
+        'rectal swab': 'rectal'
+        'anal': 'rectal'
+        'anal swab': 'rectal'
+        'rectal': 'rectal'
+        'gastric lavage fluid': 'stomach'
+
+        # cerebrospinal fluid
+        'csf': 'cerebrospinal fluid'
+        'cerebro spinal fluid': 'cerebrospinal fluid'
+        'cerebrospinal fluid': 'cerebrospinal fluid'
+
+        # oronasopharynx
+        'throat swab': 'oronasopharynx'
+        'oral swab': 'oronasopharynx'
+        'mouth swab': 'oronasopharynx'
+        'mouth': 'oronasopharynx'
+        'throat': 'oronasopharynx'
+        'tonsil': 'oronasopharynx'
+        'tongue': 'oronasopharynx'
+        'saliva': 'oronasopharynx'
+        'nasopharyngeal aspirate': 'oronasopharynx'
+        'nasopharyngeal wash': 'oronasopharynx'
+        'nasopharyngeal': 'oronasopharynx'
+        'nasopharinge suction': 'oronasopharynx'
+        'nasal swab': 'oronasopharynx'
+        'nasal': 'oronasopharynx'
+        'oronasopharynx': 'oronasopharynx'
+        'throat/vesicle swab': 'oronasopharynx'
+
+        # lesion
+        'lesion': 'lesion'
+        'ulcer swab': 'lesion'
+        'vesicle': 'lesion'
+        'vesicle swab': 'lesion'
+        'blister fluid': 'lesion'
+        'blisters fluid': 'lesion'
+        'blister swab': 'lesion'
+        'vesicular fluid': 'lesion'
+        'vesicule swab': 'lesion'
+        'skin': 'lesion'
+        'skin swab': 'lesion'
+
+        # cns tissue
+        'brain': 'cns tissue'
+        'cerebellum': 'cns tissue'
+        'left brain': 'cns tissue'
+        'brainstem': 'cns tissue'
+        'spinal cord': 'cns tissue'
+
+        # blood / serum
+        'blood': 'serum'
+        'plasma': 'serum'
+        'serum': 'serum'
+
+        # lung
+        'lung': 'lung'
+        'lung aspirate': 'lung'
+
+        # other
+        'biopsy': 'other'
+        'sample': 'other'
+        'clinical': 'other'
+        'hfmd': 'unknown'
+        'second specimen': 'other'
+        'unknown': 'unknown'
+
+        # environment
+        'river water': 'water'
+        'sewage': 'water'
+
+        # cell culture
+        'cell culture isolate': 'cell culture'
+        'rhabdomyosarcoma cell': 'cell culture'
+
+# Alignment parameters for high-diversity viruses
+align:
+    penalty_gap_extend: 1
+    penalty_gap_open: 13
+    penalty_gap_open_in_frame: 18
+    penalty_gap_open_out_of_frame: 23
+    kmer_length: 6
+    kmer_distance: 25
+    min_match_length: 30
+    allowed_mismatches: 15
+    min_length: 30

@@ -1,1 +1,10 @@
 MF422532
+
+# only B sequence
+MF422531	
+
+#only H sequences
+AB119638
+AB119639
+
+JX307651

@@ -38,22 +38,24 @@ rule nextclade:
         sequences = "data/sequences.fasta",
         ref = "data/references/reference.fasta"
     output:
-        nextclade = "data/references/nextclade.tsv"
+        nextclade = "data/nextclade.tsv"
     params:
         dataset = "data/references/",
-        output_columns = "seqName clade qc.overallScore qc.overallStatus alignmentScore  alignmentStart  alignmentEnd  coverage dynamic"
-    threads: 8
+        output_columns = "seqName clade qc.overallScore qc.overallStatus alignmentScore  alignmentStart  alignmentEnd  coverage dynamic",
+        min_length = "550"
+    threads: workflow.cores
     shell:
         """
         nextclade3 run -D {params.dataset}  -j {threads} \
                           --output-columns-selection {params.output_columns} \
+                          --min-length {params.min_length} \
                           --output-tsv {output.nextclade} \
                           {input.sequences}
         """
 
 rule extend_metadata: 
     input:
-        nextclade = "data/references/nextclade.tsv",
+        nextclade = "data/nextclade.tsv",
         metadata = "data/metadata_raw.tsv"
     output:
         metadata = "data/metadata.tsv"

@@ -1,13 +1,17 @@
 {
-  "title": "Genomic Epidemiology of Coxsakievirus A10 VP1",
+  "title": "Genomic Epidemiology of Coxsackievirus A10 VP1",
   "maintainers": [
     {
       "name": "Alejandra González-Sánchez",
-      "url": ""
+      "url": "https://www.vallhebron.com/en/professionals/alejandra-gonzalez-sanchez"
+    },
+    {
+      "name": "Nadia Neuner-Jehle",
+      "url": "https://eve-lab.org/people/nadia-neuner-jehle/"
     },
     {
       "name": "Emma Hodcroft",
-      "url": "http://emmahodcroft.com/"
+      "url": "https://eve-lab.org/people/emma-hodcroft/"
     }
   ],
   "data_provenance": [
@@ -42,15 +46,58 @@
       "key": "isolate-lineage-source",
       "title": "Isolation Source",
       "type": "categorical"
-    }
-  ],
+    },
+    {
+      "key": "age",
+      "title": "Age (years)",
+      "type": "continuous",
+      "scale": [
+        [0, "#3f63cf"],
+        [0.125, "#3f63cf"],
+        [0.375, "#529ab6"],
+        [0.75, "#75b681"],
+        [3, "#a6be55"],
+        [7.5, "#d4b13f"],
+        [13.5, "#e68133"],
+        [20, "#dc2f24"]
+      ],
+      "legend": [
+        {"value": 0.125, "display": "0-3 m/o", "bounds":  [0, 0.25]},
+        {"value": 0.375, "display": "4-6 m/o", "bounds":  [0.25, 0.5]},
+        {"value":  0.75, "display": "7-12 m/o", "bounds":  [0.5, 1]},
+        {"value": 3, "display": "1-5 y/o", "bounds": [1, 5]},
+        {"value": 7.5, "display": "6-10 y/o", "bounds": [5, 10]},
+        {"value": 13.5, "display": "11-17 y/o", "bounds": [10, 17]},
+        {"value": 20, "display": "18+ y/o", "bounds": [17, 100]}
+      ]
+    },
+    {
+      "key": "gender",
+      "title": "Gender",
+      "type": "categorical"
+    },
+    {
+      "key": "diagnosis",
+      "title": "Symptoms",
+      "type": "categorical"
+    },
+    {
+      "key": "length",
+      "title": "NCBI-reported Length",
+      "type": "continuous"
+    },
+    {
+      "key": "abbr_authors",
+      "title": "Authors",
+      "type": "categorical"
+    }  ],
   "geo_resolutions": [
     {
       "key": "country",
       "title": "Country"
     },
     {
-      "key": "place",
+      "key": "location",
       "title": "Areas"
     },
     {
@@ -74,6 +121,7 @@
   ],
   "filters": [
     "country",
+    "region",
     "author"
   ]
 }
