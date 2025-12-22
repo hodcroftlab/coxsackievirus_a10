@@ -1,4 +1,4 @@
-accession	strain	subgenogroup	country	location	date	age	gender	diagnosis	doi
+accession	strain	published_clade	country	location	date	age	gender	diagnosis	doi
 PX441810	CVA10_250027197102_FRA25		France		11.07.2025	1.417			genbank corrections
 PX441809	CVA10_250026513002_FRA25		France		08.07.2025	1			genbank corrections
 PQ612457	CVA10_240022512202_FRA24		France		30.04.2024	2	F	Herpangina; Fever	genbank corrections
@@ -400,36 +400,36 @@ AB126614	CA10/80269/Hiroshima.JP/03		Japan	Hiroshima	2003			Stomatitis	genbank c
 AB121045	CA10/20096/Hiroshima.JP/03		Japan	Hiroshima	2003			HFMD	genbank corrections
 AB121044	CA10/80235/Hiroshima.JP/03		Japan	Hiroshima	2003			Herpangina	genbank corrections
 AB119641	CA10/20055/Hiroshima.JP/03		Japan	Hiroshima	2003			Bronchitis	genbank corrections
-AB119640	CA10/20051/Hiroshima.JP/03		Japan	Hiroshima	2003			HFMD	genbank corrections
-AB119639	CA10/80004/Hiroshima.JP/01		Japan	Hiroshima	2001			Herpangina	genbank corrections
-AB119638	CA10/800387/Hiroshima.JP/00		Japan	Hiroshima	2000			Herpangina	genbank corrections
+AB119640	CA10/20051/Hiroshima.JP/03	E	Japan	Hiroshima	2003			HFMD	genbank corrections
+AB119639	CA10/80004/Hiroshima.JP/01	H	Japan	Hiroshima	2001			Herpangina	genbank corrections
+AB119638	CA10/800387/Hiroshima.JP/00	H	Japan	Hiroshima	2000			Herpangina	genbank corrections
 PV613763	CVA10-linyi2304-SD-CHN-2023		China		06.2023				genbank corrections
 PV613762	CVA10-linyi2306-SD-CHN-2023		China		06.2023				genbank corrections
 PV613761	CVA10-linyi2323-SD-CHN-2023		China		07.2023				genbank corrections
 PV613760	CVA10-linyi2337-SD-CHN-2023		China		08.2023				genbank corrections
-AB094769	V-16469/CA10/Kanagawa/1999		Japan		1999				genbank corrections
-AB094770	P-700/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114117	P-472/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114118	P-500/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114119	P-502/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114120	P-513/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114121	P-553/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114122	P-560/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB114123	P-562/CA10/Kanagawa/2000		Japan		2000				genbank corrections
-AB126205	P-2206/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB126206	P-2211/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB126207	P-2257/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162727	P-2206/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162728	P-2208/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162729	P-2211/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162730	P-2252/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162741	P-2233/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162742	P-2252/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162743	P-2267/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162744	P-2283/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162745	P-2297/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB162746	HC77csf/CA10/Kanagawa/2003		Japan		2003				genbank corrections
-AB167759	Aichi/421/92		Japan		1992				genbank corrections
+AB094769	V-16469/CA10/Kanagawa/1999		Japan	Kanagawa	1999				genbank corrections
+AB094770	P-700/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114117	P-472/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114118	P-500/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114119	P-502/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114120	P-513/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114121	P-553/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114122	P-560/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB114123	P-562/CA10/Kanagawa/2000		Japan	Kanagawa	2000				genbank corrections
+AB126205	P-2206/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB126206	P-2211/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB126207	P-2257/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162727	P-2206/CA10/Kanagawa/2003	C	Japan	Kanagawa	2003				genbank corrections
+AB162728	P-2208/CA10/Kanagawa/2003	E	Japan	Kanagawa	2003				genbank corrections
+AB162729	P-2211/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162730	P-2252/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162741	P-2233/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162742	P-2252/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162743	P-2267/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162744	P-2283/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162745	P-2297/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB162746	HC77csf/CA10/Kanagawa/2003		Japan	Kanagawa	2003				genbank corrections
+AB167759	Aichi/421/92		Japan	Aichi	1992				genbank corrections
 AB239932	113-1/Mog/03		Mongolia		2003			Healthy	genbank corrections
 AB239980	113-1/Mog/03		Mongolia		2003			Healthy	genbank corrections
 AB239981	116-1/Mog/03		Mongolia		2003			Healthy	genbank corrections
@@ -438,8 +438,8 @@ AB239983	318-1/Mog/03		Mongolia		2003			Healthy	genbank corrections
 AB239984	405-1/Mog/03		Mongolia		2003			Healthy	genbank corrections
 AB239985	417-5R/Mog/03		Mongolia		2003			Healthy	genbank corrections
 AB239986	610-4R/Mog/03		Mongolia		2003			Healthy	genbank corrections
-AB282808	2304/CA10/Hyogo/2003		Japan		2003				genbank corrections
-AB282809	3263/CA10/Hyogo/2005		Japan		2005				genbank corrections
+AB282808	2304/CA10/Hyogo/2003		Japan	Hyogo	2003				genbank corrections
+AB282809	3263/CA10/Hyogo/2005		Japan	Hyogo	2005				genbank corrections
 AY956574	Germany/286/2003		Germany		2003				genbank corrections
 AY956577	Germany/491/2003		Germany		2003				genbank corrections
 HM771633	NUH0030/SIN/08		Singapore		2008				genbank corrections
