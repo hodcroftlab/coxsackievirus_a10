@@ -7,15 +7,16 @@
 # To run a default whole genome run (>6400bp):
 # snakemake auspice/coxsackievirus_A10_genome.json --cores 9
 
-# Load config file
-if not config:
-    configfile: "config/config.yaml"
-
 from dotenv import load_dotenv
 import os
 from datetime import date
 import glob
 
+# Load config file
+if not config:
+    configfile: "config/config.yaml"
+
+# Load environment variables
 load_dotenv(".env")
 REMOTE_GROUP = os.getenv("REMOTE_GROUP")
 UPLOAD_DATE = os.getenv("UPLOAD_DATE") or date.today().isoformat()
@@ -261,9 +262,10 @@ rule filter:
         sequence_index = rules.index_sequences.output.sequence_index,
         metadata =rules.curate.output.final_metadata,
         exclude = files.dropped_strains,
-        include = files.include
+        include = files.include,
     output:
-        sequences = "{seg}/results/filtered.fasta"
+        sequences = "{seg}/results/filtered.fasta",
+        reason ="{seg}/results/filter_log.tsv"
     params:
         group_by = "country year",
         sequences_per_group = 200, # add a limit per group
@@ -283,8 +285,9 @@ rule filter:
             --group-by {params.group_by} \
             --sequences-per-group {params.sequences_per_group} \
             --min-date {params.min_date} \
+            --min-length {params.min_length} --max-length {params.max_length} \
             --output-sequences {output.sequences} \
-            --min-length {params.min_length} 
+            --output-log {output.reason}
         """
 # --exclude-where ... or other parameters can be added, see `augur filter --h` for more options
 
@@ -309,27 +312,48 @@ rule reference_gb_to_fasta:
 rule align: 
     message:
         """
-        Aligning sequences to {input.reference} using Nextalign.
+        Aligning sequences to {input.reference} using Nextclade run.
         """
     input:
+        gff_reference = files.gff_reference,
         sequences = rules.filter.output.sequences,
         reference = rules.reference_gb_to_fasta.output.reference
     output:
-        alignment = "{seg}/results/aligned.fasta"
-
+        alignment = "{seg}/results/aligned.fasta",
+        tsv = "{seg}/results/nextclade.tsv",    
     params:
-            nuc_mismatch_all = 10,
-            nuc_seed_length = 30
+        penalty_gap_extend = config["align"]["penalty_gap_extend"],
+        penalty_gap_open = config["align"]["penalty_gap_open"],
+        penalty_gap_open_in_frame = config["align"]["penalty_gap_open_in_frame"],
+        penalty_gap_open_out_of_frame = config["align"]["penalty_gap_open_out_of_frame"],
+        kmer_length = config["align"]["kmer_length"],
+        kmer_distance = config["align"]["kmer_distance"],
+        min_match_length = config["align"]["min_match_length"],
+        allowed_mismatches = config["align"]["allowed_mismatches"],
+        min_length = config["align"]["min_length"]
+    threads: workflow.cores
     shell:
         """
-        nextclade run \
-        {input.sequences}  \
-        --input-ref {input.reference}\
-        --allowed-mismatches {params.nuc_mismatch_all} \
-        --min-length {params.nuc_seed_length} \
+        nextclade3 run \
+        -j {threads} \
+        {input.sequences} \
+        --input-ref {input.reference} \
+        --input-annotation {input.gff_reference} \
+        --penalty-gap-open {params.penalty_gap_open} \
+        --penalty-gap-extend {params.penalty_gap_extend} \
+        --penalty-gap-open-in-frame {params.penalty_gap_open_in_frame} \
+        --penalty-gap-open-out-of-frame {params.penalty_gap_open_out_of_frame} \
+        --kmer-length {params.kmer_length} \
+        --kmer-distance {params.kmer_distance} \
+        --min-match-length {params.min_match_length} \
+        --allowed-mismatches {params.allowed_mismatches} \
+        --min-length {params.min_length} \
         --include-reference false \
-        --output-fasta {output.alignment} 
+        --output-tsv {output.tsv} \
+        --output-translations "{wildcards.seg}/results/translations/cds_{{cds}}.translation.fasta" \
+        --output-fasta {output.alignment}
         """
+
 
 ##############################
 # Building a tree
@@ -372,7 +396,6 @@ rule refine:
         tree = rules.tree.output.tree,
         alignment = rules.align.output.alignment,
         metadata = rules.curate.output.final_metadata,
-        reference = rules.reference_gb_to_fasta.output.reference
     output:
         tree = "{seg}/results/tree.nwk",
         node_data = "{seg}/results/branch_lengths.json"

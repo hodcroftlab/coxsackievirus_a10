@@ -35,6 +35,7 @@ metadata:
         'upper respiratory tract infection': 'Respiratory'
         'acute respiratory disease': 'Respiratory'
         'asthmatic bronchitis': 'Respiratory'
+        'urti': 'Respiratory'
         'Cough': 'Respiratory'
         'Influenza-like illness': 'Respiratory'
         'Respiratory Symptoms': 'Respiratory'

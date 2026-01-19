@@ -21,13 +21,13 @@ import sys
 from Bio import Entrez, SeqIO
 from dotenv import load_dotenv, find_dotenv
 from typing import Dict, List, Optional, Tuple
-import ipdb
+# import ipdb
 import word2number as w2n
 
 class MetadataFetcher:
     """Handles fetching and parsing GenBank metadata for viral sequences."""
     
-    def __init__(self, virus_name: str, config: Dict, email: str):
+    def __init__(self, virus_name: str, config: Dict, email: str,location_list):
         """
         Initialize the metadata fetcher.
         
@@ -39,7 +39,7 @@ class MetadataFetcher:
         self.virus_name = virus_name
         self.symptom_list = self._normalize_dict_keys(config['metadata']['symptom_list'])
         self.isolation_sources = self._normalize_dict_keys(config['metadata']['isolation_source'])
-        
+        self.location_list = location_list
         # Set up Entrez
         Entrez.email = email
         
@@ -199,10 +199,19 @@ class MetadataFetcher:
                         return [None] * 16
                     
                     # Extract strain
-                    strain = feature.qualifiers.get("isolate", [None])[0]
-                    if strain is None:
-                        strain = feature.qualifiers.get("strain", [None])[0]
-                    
+                    isolate = feature.qualifiers.get("isolate", [None])[0] or None
+                    strain = feature.qualifiers.get("strain", [None])[0] or None
+
+                    # Prefer isolate when strain is missing; normalize to safe strings for checks
+                    if not strain:
+                        strain = isolate
+                    isolate_str = isolate or ""
+                    strain_str = strain or ""
+
+                    # If both present, prefer the longer identifier (avoid len(None))
+                    if isolate_str and strain_str and len(strain_str) < len(isolate_str):
+                        strain = isolate
+
                     # Extract location
                     location_str = feature.qualifiers.get("geo_loc_name", [None])[0]
                     if location_str and ":" in location_str:
@@ -234,7 +243,20 @@ class MetadataFetcher:
                         if host_field and host_field != 'Homo sapiens':
                             origin,isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(host_field)
                             isolation= isolation_field
-                            
+
+                    # get diagnosis from strain name (safe concatenation)
+                    for keyword, standardized in self.symptom_list.items():
+                        if (strain_str and keyword in strain_str.lower()) or (isolate_str and keyword in isolate_str.lower()):
+                            diagnosis = (diagnosis + f"; {standardized}") if diagnosis else standardized
+                            break     
+                    
+                    # get location from strain name (safely use strings)
+                    if location is None:
+                        for keyword in self.location_list:
+                            if (strain_str and keyword.lower() in strain_str.lower()) or (isolate_str and keyword.lower() in isolate_str.lower()):
+                                location = keyword
+                                break  
+                    
                     # Process note field
                     if note_field:
                         if "year" in note_field or "patient" in note_field:
@@ -258,19 +280,27 @@ class MetadataFetcher:
                             subgenogroup = genotype_match.group(2)
                     
                     diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
+                    diagnosis = diagnosis.replace("AFP; AFP", "AFP")
                     
                     # Extract collection date
                     date = feature.qualifiers.get("collection_date", [None])[0]
-                    if date:
-                        if "-" in date:
-                            collection_yr = date.split("-")[-1]
-                        elif "/" in date:
-                            collection_yr = date.split("/")[-1]
-                        elif "." in date:
-                            collection_yr = date.split(".")[-1]
+
+                    # Safely handle missing dates and extract a 4-digit year if present
+                    if not date:
+                        collection_yr = None
+                    else:
+                        date_str = str(date).strip()
+                        # look for a 4-digit year anywhere in the date string
+                        m = re.search(r'(\d{4})', date_str)
+                        if m:
+                            try:
+                                collection_yr = int(m.group(1))
+                            except ValueError:
+                                collection_yr = m.group(1)
                         else:
-                            collection_yr = date
-            
+                            # fallback: keep original string if no 4-digit year found
+                            collection_yr = date_str
+                        
             return [accession, strain, country, location, region, subgenogroup, 
                    lineage, date, collection_yr, sex, age_yrs, age_mo, 
                    diagnosis, isolation, origin, doi]
@@ -290,6 +320,25 @@ def load_accessions(input_file: str) -> pd.Series:
     """Load accession numbers from a file (one per line or tab-delimited)."""
     df = pd.read_table(input_file, header=None)
     return df[0].unique()
+
+def normalize_columns_with_mapping(requested, canonical_columns, aliases):
+    requested_to_canonical = {}
+    canonical_order = []
+
+    for col in requested:
+        if col in canonical_columns:
+            requested_to_canonical[col] = col
+            canonical_order.append(col)
+        elif col in aliases:
+            requested_to_canonical[col] = aliases[col]
+            canonical_order.append(aliases[col])
+        else:
+            print(
+                f"Warning: Requested column '{col}' is not a valid column or alias",
+                file=sys.stderr
+            )
+
+    return requested_to_canonical, canonical_order
 
 
 def main():
@@ -316,6 +365,10 @@ def main():
         '--genbank',
         required=True,
         help='Summary GenBank Metadata TSV file path, includes previous runs'
+    )
+    parser.add_argument(
+        '--latlongs', default='config/lat_longs.tsv',
+        help='Path to lat/long TSV file (default: config/lat_longs.tsv)'
     )
     parser.add_argument(
         '--config', '-c',
@@ -349,13 +402,17 @@ def main():
     # print(f"Loading configuration from {args.config}...")
     config = load_config(args.config)
     
+    #locations list
+    latlongs = pd.read_csv(args.latlongs, sep="\t")
+    location_list = latlongs.iloc[:,1].tolist()
+
     # Load accessions
     # print(f"Loading accessions from {args.accession_file}...")
     accessions = load_accessions(args.accession_file)
     # print(f"Found {len(accessions)} unique accessions")
     
     # Initialize fetcher
-    fetcher = MetadataFetcher(args.virus, config, email)
+    fetcher = MetadataFetcher(args.virus, config, email,location_list)
     
     # Fetch metadata
     # print(f"Fetching metadata for {args.virus}...")
@@ -373,14 +430,42 @@ def main():
     columns = ["accession", "strain", "country", "location", "region", 
                "subgenogroup", "lineage", "date", "collection_yr", "sex", 
                "age_yrs", "age_mo", "diagnosis", "isolation", "origin", "doi"]
-    
+
+    # Accepted user-facing aliases → canonical name
+    COLUMN_ALIASES = {
+        "gender": "sex",
+
+        "place": "location",
+
+        "year": "collection_yr",
+        
+        "collection_date": "date",
+
+        "age": "age_yrs",
+        "age_years": "age_yrs",
+        "age_month": "age_mo",
+
+        "symptoms": "diagnosis",
+
+        "clade": "subgenogroup",
+    }
+
+    requested_to_canonical, canonical_cols = normalize_columns_with_mapping(
+        args.columns,
+        columns,
+        COLUMN_ALIASES
+    )
+
     df = pd.DataFrame(data, columns=columns)
-    
+
     # Drop rows without accession
     df.dropna(subset=["accession"], inplace=True)
-    
-    # Select and reorder columns
-    df = df.loc[:, args.columns]
+
+    # Select canonical columns
+    df = df.loc[:, canonical_cols]
+
+    # Rename back to requested column names
+    df = df.rename(columns={v: k for k, v in requested_to_canonical.items()})
     
     # Save to file
     # print(f"Saving results to {args.output}...")
@@ -394,6 +479,13 @@ def main():
     gb = pd.concat([gb, df], ignore_index=True)
 
     gb.drop_duplicates(subset=["accession"], keep="last", inplace=True)
+    # drop rows if they only have accession, and nothing else
+    if gb.shape[1] > 1:
+        # Drop rows that have only one non-NA value across all columns
+        non_na_counts = gb.notna().sum(axis=1)
+        gb = gb.loc[non_na_counts > 1].reset_index(drop=True)
+    
+
     gb.to_csv(args.genbank, index=False, sep="\t")
     
     print(f"Done!  Processed {len(df)} records successfully.")
