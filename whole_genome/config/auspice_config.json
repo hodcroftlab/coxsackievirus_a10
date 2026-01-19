@@ -43,11 +43,6 @@
       "type": "categorical"
     },
     {
-      "key": "isolate-lineage-source",
-      "title": "Isolation Source",
-      "type": "categorical"
-    },
-    {
         "key": "age",
         "title": "Age (years)",
         "type": "continuous",
@@ -79,6 +74,11 @@
     {
       "key": "diagnosis",
       "title": "Symptoms",
+      "type": "categorical"
+    },
+    {
+      "key": "isolate-lineage-source",
+      "title": "Isolation Source",
       "type": "categorical"
     },
     {

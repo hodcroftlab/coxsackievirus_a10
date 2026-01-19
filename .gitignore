@@ -16,9 +16,6 @@ ingest/data/*
 # Ignore intermediate results files
 vp1/results/*
 whole_genome/results/*
-data/metadata.tsv
-data/sequences.fasta
-data/curated/*
 
 # Ignore temporary files
 temp
@@ -27,12 +24,21 @@ temp
 auspice/*
 
 # data
-data/metadata
-data/final_meta.tsv
-ingest/data/references/nextclade.tsv
 data/*
+ingest/data/references/nextclade.tsv
 
 # files with sensitive information
 .env
 bin
 logs
+
+# data to include
+!/data/date_last_updated.txt
+!/data/local_accn.txt
+!/data/references
+!/ingest/data/references/
+
+## part of nextstrain-builds-data repo
+data/meta_publications.tsv
+data/strain_names_previous_run.tsv
+data/genbank_metadata.tsv

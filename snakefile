@@ -17,9 +17,14 @@ if not config:
     configfile: "config/config.yaml"
 
 # Load environment variables
-load_dotenv(".env")
+try:
+    from dotenv import load_dotenv
+    load_dotenv(".env")
+except:
+    pass
+
 REMOTE_GROUP = os.getenv("REMOTE_GROUP")
-UPLOAD_DATE = os.getenv("UPLOAD_DATE") or date.today().isoformat()
+UPLOAD_DATE = date.today().isoformat()
 
 FETCH_SEQUENCES=True
 
@@ -34,20 +39,23 @@ segments = ['vp1', 'whole-genome'] # This is only for the expand in rule all
 # Rule to handle configuration files and data file paths
 rule files:
     input:
-        sequence_length =       "{seg}",
-        colors =                "config/colors.tsv",
-        dropped_strains =       "config/dropped_strains.txt",
-        regions=                "config/geo_regions.tsv",
-        lat_longs =             "config/lat_longs.tsv",
-        reference =             "{seg}/config/reference_sequence.gb", ####TODO: provide a reference sequence
-        auspice_config =        "{seg}/config/auspice_config.json",
-        clades =                "{seg}/config/clades_genome.tsv",
-        include =               "config/include.txt",
-        SEQUENCES =             "data/sequences.fasta",
-        METADATA =              "data/metadata.tsv",
-        meta_collab =           "data/meta_collab.tsv", ###TODO: Add an empty tsv file to this path or metadata for one of your sequences
-        meta_publications =     "data/meta_publications.tsv", # Published metadata
-        strain_names =          "data/updated_strain_names.tsv",
+        sequence_length =   "{seg}",
+        colors =            "config/colors.tsv",
+        dropped_strains =   "config/dropped_strains.txt",
+        regions=            "config/geo_regions.tsv",
+        lat_longs =         "config/lat_longs.tsv",
+        reference =         "{seg}/config/reference_sequence.gb", 
+        gff_reference =     "{seg}/config/annotation.gff3",
+        auspice_config =    "{seg}/config/auspice_config.json",
+        clades =            "{seg}/config/clades_genome.tsv",
+        include =           "config/include.txt",
+        SEQUENCES =         "data/sequences.fasta",
+        METADATA =          "data/metadata.tsv",
+        meta_collab =       "data/meta_collab.tsv", # collaborator metadata, empty for now
+        meta_publications = "data/meta_publications.tsv", # Published metadata
+        last_updated_file = "data/date_last_updated.txt",
+        local_accn_file =   "data/local_accn.txt",
+        strain_names =      "data/updated_strain_names.tsv",
 
 files = rules.files.input
 
@@ -104,13 +112,15 @@ rule fetch_metadata:
         Retrieving GenBank metadata for the specified accessions.
         """
     input:
-        accessions="data/metadata/FRA.txt",
+        accessions="data/metadata/afm.txt",
         config="config/config.yaml" # include symptom list and isolation source mapping
     output:
-        metadata="data/metadata/FRA.tsv",
+        metadata="data/metadata/afm.tsv",
     params:
         virus="Coxsackievirus A10",
-        genbank_metadata="data/genbank_metadata.tsv"
+        genbank_metadata="data/genbank_metadata.tsv",
+        columns = "accession strain published_clade country location date age gender diagnosis doi"
+
     log:
         "logs/fetch_metadata.log"
     shell:
@@ -121,6 +131,7 @@ rule fetch_metadata:
             --output {output.metadata} \
             --genbank {params.genbank_metadata} \
             --config {input.config} \
+            --columns {params.columns} \
             2> {log}
         """
 
@@ -145,25 +156,58 @@ rule curate:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
+        temp=temp("temp/merged_metadata.tsv")
     output:
-        final_metadata="data/final_meta.tsv"
+        metadata="data/merged_meta.tsv"
     shell:
         """               
         # Merge curated metadata
         augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} strain={input.renamed_strains} \
             --metadata-id-columns {params.strain_id_field} \
-            --output-metadata temp/merged_metadata.tsv
+            --output-metadata {params.temp}
 
         # Normalize strings for publication metadata
         augur curate normalize-strings \
             --id-column {params.strain_id_field} \
-            --metadata temp/merged_metadata.tsv \
+            --metadata {params.temp} \
         | augur curate format-dates \
             --date-fields {params.date_fields} \
             --no-mask-failure \
             --expected-date-formats {params.expected_date_formats} \
             --id-column {params.strain_id_field} \
-            --output-metadata {output.final_metadata}
+            --output-metadata {output.metadata}
+        """
+
+##############################
+# Add additional sequences
+# if you have sequences that are not on NCBI Virus
+###############################
+
+rule update_sequences:
+    input:
+        sequences = files.SEQUENCES,
+        metadata= rules.curate.output.metadata,
+    output:
+        sequences = "data/all_sequences.fasta",
+        metadata = "data/all_metadata.tsv"
+    params:
+        strain_id_field=config["id_field"],
+        file_ending = "data/*.fas*",
+        temp = temp("temp/sequences.fasta"),
+        date_last_updated = files.last_updated_file,
+        local_accn = files.local_accn_file,
+    shell:
+        """
+        touch {params.temp} && rm {params.temp}
+        cat {params.file_ending} > {params.temp}
+        python scripts/update_sequences.py --in_seq {params.temp} --out_seq {output.sequences} --dates {params.date_last_updated} \
+        --local_accession {params.local_accn} --meta {input.metadata} --ingest_seqs {input.sequences}
+
+        awk '/^>/{{if (seen[$1]++ == 0) print; next}} !/^>/{{print}}' {output.sequences} > {params.temp} && mv {params.temp} {output.sequences}
+
+        augur merge --metadata metadata={input.metadata} dates={params.date_last_updated} \
+            --metadata-id-columns {params.strain_id_field} \
+            --output-metadata {output.metadata}
         """
 
 ##############################
@@ -191,7 +235,7 @@ rule extract:
 rule blast:
     input: 
         blast_db_file = rules.extract.output.extracted_fasta,  
-        seqs_to_blast = files.SEQUENCES
+        seqs_to_blast = rules.update_sequences.output.sequences
     output:
         blast_out = "temp/{seg}/blast_out.csv"
     params:
@@ -208,10 +252,9 @@ rule blast:
 rule blast_sort: #TODO: change the parameters in blast_sort.py (replace lengths with your specific protein)
     input:
         blast_result = rules.blast.output.blast_out, # output blast (for your protein)
-        input_seqs = files.SEQUENCES
+        seqs_to_blast = rules.update_sequences.output.sequences
     output:
         sequences = "{seg}/results/sequences.fasta"
-        
     params:
         range = "{seg}",  # Determines which protein (or whole genome) is processed
         min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg],  # Min length ## DONE replace whole_genome with genome, min length = 6000
@@ -219,13 +262,11 @@ rule blast_sort: #TODO: change the parameters in blast_sort.py (replace lengths 
     shell:
         """
         python scripts/blast_sort.py --blast {input.blast_result} \
-            --seqs {input.input_seqs} \
+            --seqs {input.seqs_to_blast} \
             --out_seqs {output.sequences} \
             --range {params.range} \
             --min_length {params.min_length} \
             --max_length {params.max_length}
-
-        # rm -r temp
         """
 
 ##############################
@@ -260,7 +301,7 @@ rule filter:
     input:
         sequences = rules.blast_sort.output.sequences,
         sequence_index = rules.index_sequences.output.sequence_index,
-        metadata =rules.curate.output.final_metadata,
+        metadata = rules.update_sequences.output.metadata,
         exclude = files.dropped_strains,
         include = files.include,
     output:
@@ -395,7 +436,7 @@ rule refine:
     input:
         tree = rules.tree.output.tree,
         alignment = rules.align.output.alignment,
-        metadata = rules.curate.output.final_metadata,
+        metadata= rules.update_sequences.output.metadata,
     output:
         tree = "{seg}/results/tree.nwk",
         node_data = "{seg}/results/branch_lengths.json"
@@ -474,7 +515,7 @@ rule traits:
     message: "Inferring ancestral traits for {params.traits!s}"
     input:
         tree = rules.refine.output.tree,
-        metadata =rules.curate.output.final_metadata
+        metadata= rules.update_sequences.output.metadata
     output:
         node_data = "{seg}/results/traits.json"
         
@@ -575,13 +616,19 @@ rule rename_whole_genome:
 rule clean:
     message: "Removing directories: {params}"
     params:
+        "ingest/data/*.*",
         "*/results/*",
         "auspice/*.json",
-        "temp/*"
-        "ingest/data/*.*",
-        "data/sequences.fasta",
-        "data/metadata.tsv",
-        "data/final*"
+        "temp/*",
+        "logs/*",
+        "benchmark/*",
+        files.METADATA,
+        files.SEQUENCES,
+        "data/curated/*",
+        "data/all_sequences.fasta",
+        "data/all_metadata.tsv",
+        "data/merged_metadata.tsv",
+        "logs/*"
     shell:
         "rm -rfv {params}"
 

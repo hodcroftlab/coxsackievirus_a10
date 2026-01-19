@@ -1,0 +1,7 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region AY421767.1 1 894
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=42769
+AY421767.1	Genbank	region	1	894	.	+	.	ID=AY421767.1:1..7409;Dbxref=taxon:42769;gb-acronym=CV-A10;gbkey=Src;isolate=CA10;mol_type=genomic RNA;strain=Kowalik
+AY421767.1	Genbank	CDS	1	894	.	+	.	Name=VP1;gbkey=Prot;product=VP1;ID=id-AAR38847.1:565..862
