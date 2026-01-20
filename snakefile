@@ -639,9 +639,11 @@ rule upload: ## make sure you're logged in to Nextstrain
     params:
         remote_group=REMOTE_GROUP,
         date=UPLOAD_DATE,
+        USERNAME=os.getenv("NEXTSTRAIN_REMOTE_USERNAME"),
+        
     shell:
         """
-        nextstrain login
+        nextstrain login --username {params.USERNAME}
         nextstrain remote upload \
             nextstrain.org/groups/{params.remote_group}/ \
             {input.jsons}

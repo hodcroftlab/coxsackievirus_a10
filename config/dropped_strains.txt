@@ -15,3 +15,7 @@ AF081300
 AF303042
 X87591
 AY421767
+
+#outliers in unrooted tree
+LT719059
+LT719058
