@@ -7,16 +7,15 @@
 # To run a default whole genome run (>6400bp):
 # snakemake auspice/coxsackievirus_A10_genome.json --cores 9
 
-from dotenv import load_dotenv
 import os
 from datetime import date
-import glob
 
 # Load config file
 if not config:
     configfile: "config/config.yaml"
 
 # Load environment variables
+# Try to load .env, but don't fail if it doesn't exist (for Actions)
 try:
     from dotenv import load_dotenv
     load_dotenv(".env")
@@ -106,34 +105,34 @@ rule update_strain_names:
         """
 
 # This rule is very slow. Only give accessions as input where you are certain that they have GenBank metadata.
-rule fetch_metadata:
-    message:
-        """
-        Retrieving GenBank metadata for the specified accessions.
-        """
-    input:
-        accessions="data/metadata/afm.txt",
-        config="config/config.yaml" # include symptom list and isolation source mapping
-    output:
-        metadata="data/metadata/afm.tsv",
-    params:
-        virus="Coxsackievirus A10",
-        genbank_metadata="data/genbank_metadata.tsv",
-        columns = "accession strain published_clade country location date age gender diagnosis doi"
+# rule fetch_metadata:
+#     message:
+#         """
+#         Retrieving GenBank metadata for the specified accessions.
+#         """
+#     input:
+#         accessions="data/metadata/afm.txt",
+#         config="config/config.yaml" # include symptom list and isolation source mapping
+#     output:
+#         metadata="data/metadata/afm.tsv",
+#     params:
+#         virus="Coxsackievirus A10",
+#         genbank_metadata="data/genbank_metadata.tsv",
+#         columns = "accession strain published_clade country location date age gender diagnosis doi"
 
-    log:
-        "logs/fetch_metadata.log"
-    shell:
-        """
-        python scripts/fetch_genbank_metadata.py \
-            --virus "{params.virus}" \
-            --accession_file {input.accessions} \
-            --output {output.metadata} \
-            --genbank {params.genbank_metadata} \
-            --config {input.config} \
-            --columns {params.columns} \
-            2> {log}
-        """
+#     log:
+#         "logs/fetch_metadata.log"
+#     shell:
+#         """
+#         python scripts/fetch_genbank_metadata.py \
+#             --virus "{params.virus}" \
+#             --accession_file {input.accessions} \
+#             --output {output.metadata} \
+#             --genbank {params.genbank_metadata} \
+#             --config {input.config} \
+#             --columns {params.columns} \
+#             2> {log}
+#         """
 
 ##############################
 # AUGUR CURATE AND MERGE
@@ -635,12 +634,12 @@ rule clean:
 rule upload: ## make sure you're logged in to Nextstrain
     message: "Uploading auspice JSONs to Nextstrain"
     input:
-        jsons = glob.glob("auspice/*.json"),
+        jsons = expand("auspice/coxsackievirus_A16_{segs}.json", segs=segments)
     params:
         remote_group=REMOTE_GROUP,
         date=UPLOAD_DATE,
         USERNAME=os.getenv("NEXTSTRAIN_REMOTE_USERNAME"),
-        
+
     shell:
         """
         nextstrain login --username {params.USERNAME}

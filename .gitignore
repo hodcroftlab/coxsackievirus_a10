@@ -20,9 +20,6 @@ whole_genome/results/*
 # Ignore temporary files
 temp
 
-# auspice
-auspice/*
-
 # data
 data/*
 ingest/data/references/nextclade.tsv

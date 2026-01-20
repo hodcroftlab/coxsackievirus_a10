@@ -21,7 +21,6 @@ import sys
 from Bio import Entrez, SeqIO
 from dotenv import load_dotenv, find_dotenv
 from typing import Dict, List, Optional, Tuple
-# import ipdb
 import word2number as w2n
 
 class MetadataFetcher:
