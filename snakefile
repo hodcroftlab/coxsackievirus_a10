@@ -556,7 +556,7 @@ rule clades:
 
 rule add_url_to_metadata:
     input:
-        "data/final_meta.tsv"
+        rules.update_sequences.output.metadata
     output:
         "data/final_meta_url.tsv"
     run:
