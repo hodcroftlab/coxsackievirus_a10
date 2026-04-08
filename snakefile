@@ -136,11 +136,12 @@ rule curate:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
-        temp="temp/merged_metadata.tsv"
+        temp=temp("temp/merged_metadata.tsv")
     output:
         metadata="data/merged_meta.tsv"
     shell:
-        """               
+        """
+        mkdir -p temp               
         # Merge curated metadata
         augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} \
             --metadata-id-columns {params.strain_id_field} \
