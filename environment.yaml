@@ -4,10 +4,10 @@ channels:
   - bioconda
 dependencies:
   # Core Python dependencies
-  - python=3.9
+  - python=3.11
   - biopython
-  - augur
-  - auspice
+  - augur>=33.0.1
+  - auspice>=2.66.0
   - csvtk
   - seqkit
   - tsv-utils

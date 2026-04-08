@@ -1,6 +1,7 @@
-# Ignore Snakemake files
+# Ignore Snakemake & python files
 .snakemake/*
 ingest/.snakemake/*
+__pycache__/
 
 # Ignore ingest logs and benchmarks
 ingest/logs
