@@ -87,6 +87,11 @@
       "type": "continuous"
     },
     {
+      "key": "date_added",
+      "title": "Date when added to Nextstrain",
+      "type": "ordinal"
+    },
+    {
       "key": "abbr_authors",
       "title": "Authors",
       "type": "categorical"

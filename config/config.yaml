@@ -313,4 +313,4 @@ align:
     kmer_distance: 25
     min_match_length: 30
     allowed_mismatches: 15
-    min_length: 30
+    min_length: 50

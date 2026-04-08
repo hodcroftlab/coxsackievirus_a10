@@ -7,16 +7,15 @@
 # To run a default whole genome run (>6400bp):
 # snakemake auspice/coxsackievirus_A10_genome.json --cores 9
 
-from dotenv import load_dotenv
 import os
 from datetime import date
-import glob
 
 # Load config file
 if not config:
     configfile: "config/config.yaml"
 
 # Load environment variables
+# Try to load .env, but don't fail if it doesn't exist (for Actions)
 try:
     from dotenv import load_dotenv
     load_dotenv(".env")
@@ -137,7 +136,7 @@ rule curate:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
-        temp=temp("temp/merged_metadata.tsv")
+        temp="temp/merged_metadata.tsv"
     output:
         metadata="data/merged_meta.tsv"
     shell:
@@ -295,6 +294,8 @@ rule filter:
         min_date = 1980,  # add a reasonable min date
         min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg], 
         max_length = lambda wildcards: {"vp1": 900, "whole_genome": 8000}[wildcards.seg]  
+    log:
+        "logs/filter.{seg}.log"
     shell:
         """
         augur filter \
@@ -309,7 +310,8 @@ rule filter:
             --min-date {params.min_date} \
             --min-length {params.min_length} --max-length {params.max_length} \
             --output-sequences {output.sequences} \
-            --output-log {output.reason}
+            --output-log {output.reason} \
+            2>&1 | tee {log}
         """
 # --exclude-where ... or other parameters can be added, see `augur filter --h` for more options
 
@@ -429,7 +431,8 @@ rule refine:
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # clockor2 (2.7–4.2e-3)
         clock_std_dev = 0.0015
-
+    log:
+        "logs/refine.{seg}.log" # number of dropped sequences
     shell:
         """
         augur refine \
@@ -446,7 +449,8 @@ rule refine:
             --clock-rate {params.clock_rate}\
             --clock-std-dev {params.clock_std_dev} \
             --date-inference {params.date_inference} \
-            --clock-filter-iqd {params.clock_filter_iqd}
+            --clock-filter-iqd {params.clock_filter_iqd} \
+            2>&1 | (grep -i "pruning leaf" || cat > /dev/null) > {log}
         """
 
 ##############################
@@ -616,12 +620,12 @@ rule clean:
 rule upload: ## make sure you're logged in to Nextstrain
     message: "Uploading auspice JSONs to Nextstrain"
     input:
-        jsons = glob.glob("auspice/*.json"),
+        jsons = expand("auspice/coxsackievirus_A16_{segs}.json", segs=segments)
     params:
         remote_group=REMOTE_GROUP,
         date=UPLOAD_DATE,
         USERNAME=os.getenv("NEXTSTRAIN_REMOTE_USERNAME"),
-        
+
     shell:
         """
         nextstrain login --username {params.USERNAME}
