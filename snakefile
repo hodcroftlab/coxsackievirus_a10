@@ -54,7 +54,6 @@ rule files:
         meta_publications = "data/meta_publications.tsv", # Published metadata
         last_updated_file = "data/date_last_updated.txt",
         local_accn_file =   "data/local_accn.txt",
-        strain_names =      "data/updated_strain_names.tsv",
 
 files = rules.files.input
 
@@ -84,25 +83,8 @@ if FETCH_SEQUENCES == True:
             """
 
 ##############################
-# Optional: Update strain names & fetch metadata from genbank
+# Optional: Fetch metadata from genbank
 ###############################
-
-rule update_strain_names:
-    message:
-        """
-        Updating strain name in metadata.
-        """
-    input:
-        file_in =  files.METADATA
-    params:
-        backup = "data/strain_names_previous_run.tsv"
-    output:
-        file_out = files.strain_names
-    shell:
-        """
-        time bash scripts/update_strain.sh {input.file_in} {params.backup} {output.file_out}
-        cp {output.file_out} {params.backup}
-        """
 
 # This rule is very slow. Only give accessions as input where you are certain that they have GenBank metadata.
 # rule fetch_metadata:
@@ -149,7 +131,6 @@ rule curate:
     input:
         metadata = files.METADATA,  # Path to input metadata file
         meta_publications = files.meta_publications,
-        renamed_strains = rules.update_strain_names.output.file_out,
         genbank_metadata="data/genbank_metadata.tsv"
     params:
         strain_id_field=config["id_field"],
@@ -161,7 +142,7 @@ rule curate:
     shell:
         """               
         # Merge curated metadata
-        augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} strain={input.renamed_strains} \
+        augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} \
             --metadata-id-columns {params.strain_id_field} \
             --output-metadata {params.temp}
 
