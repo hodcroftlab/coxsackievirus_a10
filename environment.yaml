@@ -21,11 +21,11 @@ dependencies:
   - datrie
   - fasttree
   - iqtree
-  - mafft=7.471
+  - mafft
   - nextclade>=3
   - pandas
   - psutil
-  - nodejs=10
+  - nodejs=22
   - raxml
   - vcftools
   - git
