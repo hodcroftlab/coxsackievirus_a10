@@ -27,7 +27,6 @@ ingest/data/references/nextclade.tsv
 # files with sensitive information
 .env
 bin
-logs
 
 # data to include
 !/data/date_last_updated.txt

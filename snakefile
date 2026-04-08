@@ -87,34 +87,34 @@ if FETCH_SEQUENCES == True:
 ###############################
 
 # This rule is very slow. Only give accessions as input where you are certain that they have GenBank metadata.
-# rule fetch_metadata:
-#     message:
-#         """
-#         Retrieving GenBank metadata for the specified accessions.
-#         """
-#     input:
-#         accessions="data/metadata/afm.txt",
-#         config="config/config.yaml" # include symptom list and isolation source mapping
-#     output:
-#         metadata="data/metadata/afm.tsv",
-#     params:
-#         virus="Coxsackievirus A10",
-#         genbank_metadata="data/genbank_metadata.tsv",
-#         columns = "accession strain published_clade country location date age gender diagnosis doi"
+rule fetch_metadata:
+    message:
+        """
+        Retrieving GenBank metadata for the specified accessions.
+        """
+    input:
+        accessions="data/metadata/afm.txt",
+        config="config/config.yaml" # include symptom list and isolation source mapping
+    output:
+        metadata="data/metadata/afm.tsv",
+    params:
+        virus="Coxsackievirus A10",
+        genbank_metadata="data/genbank_metadata.tsv",
+        columns = "accession strain published_clade country location date age gender diagnosis doi"
 
-#     log:
-#         "logs/fetch_metadata.log"
-#     shell:
-#         """
-#         python scripts/fetch_genbank_metadata.py \
-#             --virus "{params.virus}" \
-#             --accession_file {input.accessions} \
-#             --output {output.metadata} \
-#             --genbank {params.genbank_metadata} \
-#             --config {input.config} \
-#             --columns {params.columns} \
-#             2> {log}
-#         """
+    log:
+        "logs/fetch_metadata.log"
+    shell:
+        """
+        python scripts/fetch_genbank_metadata.py \
+            --virus "{params.virus}" \
+            --accession_file {input.accessions} \
+            --output {output.metadata} \
+            --genbank {params.genbank_metadata} \
+            --config {input.config} \
+            --columns {params.columns} \
+            2> {log}
+        """
 
 ##############################
 # AUGUR CURATE AND MERGE
@@ -136,7 +136,7 @@ rule curate:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
-        temp=temp("temp/merged_metadata.tsv")
+        temp="temp/merged_metadata.tsv"
     output:
         metadata="data/merged_meta.tsv"
     shell:
@@ -294,6 +294,8 @@ rule filter:
         min_date = 1980,  # add a reasonable min date
         min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg], 
         max_length = lambda wildcards: {"vp1": 900, "whole_genome": 8000}[wildcards.seg]  
+    log:
+        "logs/filter.{seg}.log"
     shell:
         """
         augur filter \
@@ -308,7 +310,8 @@ rule filter:
             --min-date {params.min_date} \
             --min-length {params.min_length} --max-length {params.max_length} \
             --output-sequences {output.sequences} \
-            --output-log {output.reason}
+            --output-log {output.reason} \
+            2>&1 | tee {log}
         """
 # --exclude-where ... or other parameters can be added, see `augur filter --h` for more options
 
@@ -428,7 +431,8 @@ rule refine:
         strain_id_field = config["id_field"],
         clock_rate = 0.004, # clockor2 (2.7–4.2e-3)
         clock_std_dev = 0.0015
-
+    log:
+        "logs/refine.{seg}.log" # number of dropped sequences
     shell:
         """
         augur refine \
@@ -445,7 +449,8 @@ rule refine:
             --clock-rate {params.clock_rate}\
             --clock-std-dev {params.clock_std_dev} \
             --date-inference {params.date_inference} \
-            --clock-filter-iqd {params.clock_filter_iqd}
+            --clock-filter-iqd {params.clock_filter_iqd} \
+            2>&1 | tee {log}
         """
 
 ##############################
