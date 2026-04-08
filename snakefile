@@ -450,7 +450,7 @@ rule refine:
             --clock-std-dev {params.clock_std_dev} \
             --date-inference {params.date_inference} \
             --clock-filter-iqd {params.clock_filter_iqd} \
-            2>&1 | tee {log}
+            2>&1 | (grep -i "pruning leaf" || cat > /dev/null) > {log}
         """
 
 ##############################
