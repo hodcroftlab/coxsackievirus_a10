@@ -1,7 +1,7 @@
 2905 strains were dropped during filtering
 	2897 had no sequence data
 	10 were dropped because they were in config/dropped_strains.txt
-	1 was dropped during grouping due to ambiguous year information
+	1 was dropped because it was earlier than 1980.0 or missing a date
 	5 were added back because they were in config/include.txt
 	2 were dropped because of subsampling criteria
 488 strains passed all filters

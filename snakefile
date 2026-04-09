@@ -136,7 +136,7 @@ rule curate:
         strain_id_field=config["id_field"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
-        temp=temp("temp/merged_metadata.tsv")
+        temp="temp/merged_metadata.tsv"
     output:
         metadata="data/merged_meta.tsv"
     shell:
@@ -621,7 +621,7 @@ rule clean:
 rule upload: ## make sure you're logged in to Nextstrain
     message: "Uploading auspice JSONs to Nextstrain"
     input:
-        jsons = expand("auspice/coxsackievirus_A16_{segs}.json", segs=segments)
+        jsons = expand("auspice/coxsackievirus_A10_{segs}.json", segs=segments)
     params:
         remote_group=REMOTE_GROUP,
         date=UPLOAD_DATE,
