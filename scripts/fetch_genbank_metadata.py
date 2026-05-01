@@ -22,6 +22,7 @@ from Bio import Entrez, SeqIO
 from dotenv import load_dotenv, find_dotenv
 from typing import Dict, List, Optional, Tuple
 import word2number as w2n
+import ipdb
 
 class MetadataFetcher:
     """Handles fetching and parsing GenBank metadata for viral sequences."""
@@ -230,19 +231,17 @@ class MetadataFetcher:
                         isolation = isolation_field
                         origin = host_field
                         
-
                         # Check if isolation_field contains clinical data
                         if isolation_field and ('year' in isolation_field or 'month' in isolation_field or "patient" in isolation_field or "male" in isolation_field or
                             any(key in isolation_field.lower() for key in self.symptom_list)):
                             origin, isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(isolation_field)
                             origin = host_field
                         
-                        
                         # Check host_field if it's not just "Homo sapiens"
                         if host_field and host_field != 'Homo sapiens':
                             origin,isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(host_field)
                             isolation= isolation_field
-
+                    
                     # get diagnosis from strain name (safe concatenation)
                     for keyword, standardized in self.symptom_list.items():
                         if (strain_str and keyword in strain_str.lower()) or (isolate_str and keyword in isolate_str.lower()):
@@ -277,16 +276,16 @@ class MetadataFetcher:
                         genotype_match = re.search(r'(type|genogroup)[\s:]*([A-Za-z0-9\-\.]+)', note_field, re.IGNORECASE)
                         if genotype_match:
                             subgenogroup = genotype_match.group(2)
-                    
-                    diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
-                    diagnosis = diagnosis.replace("AFP; AFP", "AFP")
+                    if diagnosis:
+                        diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
+                        diagnosis = diagnosis.replace("AFP; AFP", "AFP")
 
-                    if country.lower() == location.lower():
+                    if location and country and country.lower() == location.lower():
                         location = None
                     
                     # Extract collection date
                     date = feature.qualifiers.get("collection_date", [None])[0]
-
+                    
                     # Safely handle missing dates and extract a 4-digit year if present
                     if not date:
                         collection_yr = None
@@ -302,7 +301,7 @@ class MetadataFetcher:
                         else:
                             # fallback: keep original string if no 4-digit year found
                             collection_yr = date_str
-                        
+            
             return [accession, strain, country, location, region, subgenogroup, 
                    lineage, date, collection_yr, sex, age_yrs, age_mo, 
                    diagnosis, isolation, origin, doi]
@@ -490,7 +489,6 @@ def main():
         gb = pd.DataFrame(columns=df.columns)
     
     gb = pd.concat([gb, df], ignore_index=True)
-    print(gb.head())
 
     gb.drop_duplicates(subset=["accession"], keep="last", inplace=True)
     # drop rows if they only have accession, and nothing else

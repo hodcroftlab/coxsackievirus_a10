@@ -93,12 +93,12 @@ rule fetch_metadata:
         Retrieving GenBank metadata for the specified accessions.
         """
     input:
-        accessions="data/metadata/afm.txt",
+        accessions="data/metadata/EVA.txt",
         config="config/config.yaml" # include symptom list and isolation source mapping
     output:
-        metadata="data/metadata/afm.tsv",
+        metadata="data/metadata/EVA.tsv",
     params:
-        virus="Coxsackievirus A10",
+        virus="Enterovirus A", # change to your virus name as found in genbank
         genbank_metadata="data/genbank_metadata.tsv",
         columns = "accession strain published_clade country location date age gender diagnosis doi"
 
@@ -138,16 +138,15 @@ rule curate:
         expected_date_formats=config["curate"]["expected_date_formats"],
         temp="temp/merged_metadata.tsv"
     output:
-        metadata="data/merged_meta.tsv"
+        metadata="data/merged_meta.tsv",
     shell:
         """
-        mkdir -p temp               
-        # Merge curated metadata
+        mkdir -p temp
+        
         augur merge --metadata metadata={input.metadata} meta_publications={input.meta_publications} genbank={input.genbank_metadata} \
             --metadata-id-columns {params.strain_id_field} \
             --output-metadata {params.temp}
 
-        # Normalize strings for publication metadata
         augur curate normalize-strings \
             --id-column {params.strain_id_field} \
             --metadata {params.temp} \

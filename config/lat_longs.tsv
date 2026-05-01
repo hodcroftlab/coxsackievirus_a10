@@ -393,6 +393,7 @@ location	Henan	34.2904	113.3824
 location	Hubei	30.9756	112.2707
 location	Huizhou	23.0974	114.4064
 location	Hunan	27.6102	111.7084
+location	Hunan province	27.6102	111.7084
 location	Inner Mongolia	40.8211	111.7656
 location	Jiangjin	29.4200	106.9075
 location	Jiangsu	32.0617	118.7632
@@ -412,6 +413,7 @@ location	Nantong	32.0660	120.8740
 location	Nanyang	32.9908	112.5283
 location	Ningbo	29.8696	121.5443
 location	Ningxia	38.4710	106.2740
+location	Pudong	31.2304	121.5440
 location	Qingdao	36.0683	120.3826
 location	Qinhai	35.4998	96.2025
 location	Qinghai	35.4998	96.2025
@@ -427,6 +429,7 @@ location	Shenyang	41.8057	123.4315
 location	Shenzhen	22.5431	114.0579
 location	Sichuan	30.6532	104.0665
 location	Sichuan Province	31.456781	102.843018
+location	Songjiang	31.0300	121.2300
 location	Taixing	32.1687	120.0142
 location	Taizhou	32.4933	119.9017
 location	Tianjin	39.3434	117.3616
@@ -446,6 +449,7 @@ location	Yuyao	30.0491	121.1546
 location	Yn	24.3570	102.7090
 location	Yunnan Province, Zhoutong Prefecture	27.3333	103.7167
 location	Yunnan Province	24.3570	102.7090
+location	Yunnan, Jinghong	22.0100	100.8000
 location	Zhaotong Prefecture	27.3105	106.9225
 location	Zhoutong Prefecture	27.3105	106.9225
 location	Zhejiang	29.1832	120.0934
@@ -476,6 +480,7 @@ location	Fukuoka	33.6000	130.4167
 location	Hiroshima	34.3852	132.4553
 location	Hokkaido	43.2203	142.8635
 location	Isehara	35.3936	139.3149
+location	Kanagawa	35.4478	139.6425
 location	Kobe	34.6937	135.5023
 location	Kyoto	35.0116	135.7681
 location	Miyagi	38.2682	140.8694
