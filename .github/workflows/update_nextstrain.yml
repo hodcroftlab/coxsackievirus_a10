@@ -67,6 +67,18 @@ jobs:
           snakemake --cores 1 clean || echo "Clean completed"
         shell:  micromamba-shell {0}
 
+      - name: Run ingest pipeline
+        env:
+          ENTREZ_EMAIL: ${{ secrets.ENTREZ_EMAIL }}
+        run: |
+          cd ingest
+          snakemake --cores 10 all \
+            --use-conda \
+            --rerun-incomplete \
+            --printshellcmds
+          cd ../
+        shell: micromamba-shell {0}
+
       - name: Run full pipeline
         env:  
           REMOTE_GROUP: ${{ secrets.NEXTSTRAIN_REMOTE_GROUP }}

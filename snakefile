@@ -169,7 +169,7 @@ rule update_sequences:
         metadata= rules.curate.output.metadata,
     output:
         sequences = "data/all_sequences.fasta",
-        metadata = "data/all_metadata.tsv"
+        metadata = "data/all_metadata.tsv",
     params:
         strain_id_field=config["id_field"],
         file_ending = "data/*.fas*",
@@ -289,7 +289,7 @@ rule filter:
         reason ="{seg}/results/filter_log.tsv"
     params:
         group_by = "country year",
-        sequences_per_group = 200, # add a limit per group
+        sequences_per_group = 300, # add a limit per group
         strain_id_field= config["id_field"],
         min_date = 1980,  # add a reasonable min date
         min_length = lambda wildcards: {"vp1": 600, "whole_genome": 6400}[wildcards.seg], 
