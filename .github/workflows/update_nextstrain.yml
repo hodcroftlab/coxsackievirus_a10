@@ -59,7 +59,7 @@ jobs:
           environment-file: environment.yaml
           environment-name: nextstrain
           init-shell: bash
-          cache-environment: true
+          cache-environment: false
           post-cleanup: 'all'
 
       - name: Clean previous results

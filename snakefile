@@ -25,7 +25,7 @@ except:
 REMOTE_GROUP = os.getenv("REMOTE_GROUP")
 UPLOAD_DATE = date.today().isoformat()
 
-FETCH_SEQUENCES=True
+FETCH_SEQUENCES=False
 
 ###############
 #ensure vp1 name similar to that found in the reference_sequence.gb CDS
