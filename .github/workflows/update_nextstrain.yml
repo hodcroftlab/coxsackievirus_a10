@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: automatic-updates  # Explicitly checkout this branch
+          ref: master  # Explicitly checkout this branch
 
       - name: Checkout data repository
         uses: actions/checkout@v4
