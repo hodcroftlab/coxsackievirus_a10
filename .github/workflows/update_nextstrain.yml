@@ -53,19 +53,13 @@ jobs:
             fi
           done
 
-      - name: Clear environment cache
-        run: |
-          rm -rf ~/.cache/micromamba
-          rm -rf /opt/miniconda3/envs/nextstrain || true
-        shell: bash
-
       - name:  Setup micromamba
         uses:  mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yaml
           environment-name: nextstrain
           init-shell: bash
-          cache-environment: false
+          cache-environment: true
           post-cleanup: 'all'
 
       - name: Clean previous results

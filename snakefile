@@ -624,7 +624,7 @@ rule upload: ## make sure you're logged in to Nextstrain
     params:
         remote_group=REMOTE_GROUP,
         date=UPLOAD_DATE,
-        USERNAME=os.getenv("NEXTSTRAIN_REMOTE_USERNAME"),
+        USERNAME=os.getenv("NEXTSTRAIN_USERNAME"),
 
     shell:
         """
