@@ -1,0 +1,21 @@
+Validating schema of 'whole_genome/results/muts.json'...
+
+Inferred ancestral sequence states using TreeTime:
+	Sagulenko et al. TreeTime: Maximum-likelihood phylodynamic analysis
+	Virus Evolution, vol 4, https://academic.oup.com/ve/article/4/1/vex042/4794731
+
+augur ancestral is using TreeTime version 0.12.1
+Read in 12 features from reference sequence file
+Processing gene: VP4
+Processing gene: VP2
+Processing gene: VP3
+Processing gene: VP1
+Processing gene: 2A
+Processing gene: 2B
+Processing gene: 2C
+Processing gene: 3A
+Processing gene: 3B
+Processing gene: 3C
+Processing gene: 3D
+ancestral mutations written to whole_genome/results/muts.json
+ancestral sequences FASTA written to whole_genome/results/ancestral_sequences.fasta
