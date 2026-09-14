@@ -108,6 +108,7 @@ if __name__ == '__main__':
     parser.add_argument('--out_seq', required=True, help="Output sequences file")
     parser.add_argument('--dates', help="Date last updated file")
     parser.add_argument('--local_accession', help="Local accession file")
+    parser.add_argument('--add_metadata', help="Additional extended metadata file")
     parser.add_argument('--metadata', help="metadata file")
     parser.add_argument('--ingest_seqs', help = "original sequences from ingest")
     args = parser.parse_args()
@@ -116,6 +117,7 @@ if __name__ == '__main__':
     output_sequences = args.out_seq
     date_last_updated_file = args.dates
     local_accn_file = args.local_accession
+    extended_meta_file = args.add_metadata
     sequences_ingest = args.ingest_seqs
 
     # Get current date

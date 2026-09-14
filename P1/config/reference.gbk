@@ -1,0 +1,91 @@
+LOCUS       AY421767                2586 bp    ss-RNA           UNK 28-MAY-2004
+DEFINITION  P1 gene sequence (Coxsackievirus A10, Coxsackievirus A10 (CV-A10),
+            28-MAY-2004, Accession: AY421767.1, Version: 1).
+ACCESSION   AY421767.1
+VERSION     AY421767.1
+KEYWORDS    .
+SOURCE      Coxsackievirus A10 (CV-A10)
+  ORGANISM  Coxsackievirus A10
+            .
+FEATURES             Location/Qualifiers
+     CDS             1..207
+                     /ID="id-AAR38847.1:1..69"
+                     /gbkey="Prot"
+                     /product="VP4"
+                     /Name="VP4"
+                     /locus_tag="VP4"
+     CDS             208..972
+                     /ID="id-AAR38847.1:70..324"
+                     /gbkey="Prot"
+                     /product="VP2"
+                     /Name="VP2"
+                     /locus_tag="VP2"
+     CDS             973..1692
+                     /ID="id-AAR38847.1:325..564"
+                     /gbkey="Prot"
+                     /product="VP3"
+                     /Name="VP3"
+                     /locus_tag="VP3"
+     CDS             1693..2586
+                     /ID="id-AAR38847.1:565..862"
+                     /gbkey="Prot"
+                     /product="VP1"
+                     /Name="VP1"
+                     /locus_tag="VP1"
+     CDS             1..2586
+                     /gbkey="Prot"
+                     /product="P1"
+                     /Name="P1"
+                     /locus_tag="P1"
+     source          1..2586
+                     /organism="Coxsackievirus A10"
+                     /mol_type="genomic RNA"
+                     /strain="Kowalik"
+                     /isolate="CA10"
+                     /db_xref="taxon:42769"
+ORIGIN
+        1 atgggagcac aagtttcatc tcagaggtca ggatcccacg agactgggaa tgtggctact
+       61 ggaggatcga ccatcaactt caccaatata aattattaca aggattcata tgcagcttct
+      121 gctagtcgtc aggacttcac acaagatcca aagaagttca ctcaaccggt tttggattcc
+      181 atcagagagc tgtctgcccc cttgaattca ccatcagttg aagcgtgtgg atatagtgac
+      241 cgagtggcac aactaacggt gggtaactcc tccattacga cacaagaggc tgccaatata
+      301 gttttggcat acggtgagtg gcctgagtac tgccctgata ctgacgcaac agcggtggac
+      361 aagcctactc gtccggatgt gtcagttaat agattctaca ctttagattc aaagatgtgg
+      421 caagagaact ctactggatg gtattggaag ttcccagatg ttttgaacaa gaccggggtg
+      481 tttggtcaga atgcacagtt ccactacttg tatcgttcag ggttctgtct tcatgttcaa
+      541 tgtaacgcta gcaaatttca ccagggggct cttcttgtgg cagttatccc ggagttcgtt
+      601 ctagcaggca gaggttcaaa cacgaagccc aatgaagccc ctcacccggg atttaatacc
+      661 acctttcctg gcactgctgg cgcttccttc aacgacccgt acgtgcttga ctctggggta
+      721 cctcttagcc aatccttaat atacccacat cagtggatca acttaaggac caacaattgt
+      781 gcaacaataa tagtacctta tatcaatgct gtcccctttg attcagccat caatcatagc
+      841 aactttggat taatagttgt gcctgtgagt ccgctgaaat actcttcagg ggccaccact
+      901 gcaatcccaa tcacagtgac catagcgccc ctcaattccg aatttggtgg gctgcgccaa
+      961 gctgtcagcc agggactccc taccgagtta agaccaggca ccaatcagtt cctaacaacg
+     1021 gaagatgata ctgccgcacc catactccca ggtttctccc ccaccccaag catccacatt
+     1081 ccaggagaag tacgctcatt actagaactg tgtagggtgg aaaccatact ggaagtgaac
+     1141 aacacgaccg atgcaaccgg tctgaacaga ctcctaattc cagtctccgc ccaaaacaag
+     1201 gcagatgaac tatgtgctgc attcatggtt gatcctggtc gtatcgggcc ctggcaatcg
+     1261 actttggttg gtcaaatatg taggtactac acacaatggt caggctcgtt aaaggtcaca
+     1321 ttcatgttta caggctcttt tatggcaaca ggtaagatgc tgatagcgta ctcaccacca
+     1381 ggcagtgctc aaccagccaa tagggagacc gcaatgctcg ggacccacgt catatgggat
+     1441 tttggattac aatcttcagt ttcactggtg ataccatgga tcagcaacac acacttcaga
+     1501 acagccaaaa ctggtggtaa ctatgactat tacacagctg gtgtggtgac attatggtat
+     1561 caaacaaatt atgtagtccc gcctgagacg cccggagagg cttacattat cgccatgggg
+     1621 gctgctcaag acaacttcac cttgaagata tgtaaagaca cggatgaggt tacccaacaa
+     1681 gctgtcttac aaggcgaccc cgtggaggac atcatccacg acgctttgag cagcactgtg
+     1741 cggcgggcca taactagtgg tcaagatgtc aacacagcgg ccggtaccgc tcctagctct
+     1801 cacaggttgg agactggtcg tgttcccgcc ctacaagcag cagaaactgg agccacttct
+     1861 aacgctacag atgagaacat gatagaaacg cggtgtgtca tgaacagaaa tggagtgttg
+     1921 gaggcgacta taagtcattt cttctcacgc tcaggtttgg tgggtgttgt caatctaact
+     1981 gacggaggca ccgatacaac gggatatgca gtgtgggaca ttgacatcat gggttttgtg
+     2041 caactgcggc ggaaatgtga gatgttcaca tacatgagat tcaacgctga gttcacattc
+     2101 gtcactacaa cagaaaatgg cgaggcaagg ccatttatgt tacagtatat gtatgtacct
+     2161 ccaggtgccc ctaagccaac gggtagagat gcttttcagt ggcaaacagc gacaaatcca
+     2221 tccgttttcg ttaagctcac agatccacct gctcaggtat cagtcccctt catgtcacct
+     2281 gctagtgcct accaatggtt ctatgacggg tatccaacat ttggacaaca cccggaaaca
+     2341 tctaatacaa catatggaca gtgccctaac aacatgatgg ggacctttgc tgtgagagta
+     2401 gtgagtagag tggctagcca gctcaaacta cagacacgag tgtatatgaa gcttaagcat
+     2461 gtgagagcat ggatccctag gccaataaga tcccagcctt acctcctaaa gaattttcca
+     2521 aattatgata gtagtaagat cacatacagc gcaagagatc gtgccagcat aaaacaagct
+     2581 aatatg
+//

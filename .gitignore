@@ -13,10 +13,12 @@ ingest/data/ncbi*
 ingest/data/metadata*
 ingest/data/sequences.fasta
 ingest/data/*
+ingest/results/
 
 # Ignore intermediate results files
 vp1/results/*
 whole_genome/results/*
+P1/results/*
 
 # Ignore temporary files
 temp
@@ -39,3 +41,5 @@ bin
 data/meta_publications.tsv
 data/strain_names_previous_run.tsv
 data/genbank_metadata.tsv
+
+config/final_colors.tsv

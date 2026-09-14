@@ -21,8 +21,8 @@ import sys
 from Bio import Entrez, SeqIO
 from dotenv import load_dotenv, find_dotenv
 from typing import Dict, List, Optional, Tuple
+# import ipdb
 import word2number as w2n
-import ipdb
 
 class MetadataFetcher:
     """Handles fetching and parsing GenBank metadata for viral sequences."""
@@ -231,17 +231,19 @@ class MetadataFetcher:
                         isolation = isolation_field
                         origin = host_field
                         
+
                         # Check if isolation_field contains clinical data
                         if isolation_field and ('year' in isolation_field or 'month' in isolation_field or "patient" in isolation_field or "male" in isolation_field or
                             any(key in isolation_field.lower() for key in self.symptom_list)):
                             origin, isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(isolation_field)
                             origin = host_field
                         
+                        
                         # Check host_field if it's not just "Homo sapiens"
                         if host_field and host_field != 'Homo sapiens':
                             origin,isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(host_field)
                             isolation= isolation_field
-                    
+
                     # get diagnosis from strain name (safe concatenation)
                     for keyword, standardized in self.symptom_list.items():
                         if (strain_str and keyword in strain_str.lower()) or (isolate_str and keyword in isolate_str.lower()):
@@ -257,7 +259,7 @@ class MetadataFetcher:
                     
                     # Process note field
                     if note_field:
-                        if "year" in note_field or "patient" in note_field or "confirmed" in note_field:
+                        if "year" in note_field or "patient" in note_field:
                             origin,isolation, sex, age_yrs, age_mo, diagnosis = self.parse_host(note_field)
                             isolation= isolation_field
                             origin = host_field
@@ -276,16 +278,13 @@ class MetadataFetcher:
                         genotype_match = re.search(r'(type|genogroup)[\s:]*([A-Za-z0-9\-\.]+)', note_field, re.IGNORECASE)
                         if genotype_match:
                             subgenogroup = genotype_match.group(2)
-                    if diagnosis:
-                        diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
-                        diagnosis = diagnosis.replace("AFP; AFP", "AFP")
-
-                    if location and country and country.lower() == location.lower():
-                        location = None
+                    
+                    diagnosis = diagnosis.replace("HFMD; HFMD", "HFMD")
+                    diagnosis = diagnosis.replace("AFP; AFP", "AFP")
                     
                     # Extract collection date
                     date = feature.qualifiers.get("collection_date", [None])[0]
-                    
+
                     # Safely handle missing dates and extract a 4-digit year if present
                     if not date:
                         collection_yr = None
@@ -301,7 +300,7 @@ class MetadataFetcher:
                         else:
                             # fallback: keep original string if no 4-digit year found
                             collection_yr = date_str
-            
+                        
             return [accession, strain, country, location, region, subgenogroup, 
                    lineage, date, collection_yr, sex, age_yrs, age_mo, 
                    diagnosis, isolation, origin, doi]
@@ -317,23 +316,10 @@ def load_config(config_path: str) -> Dict:
         return yaml.safe_load(f)
 
 
-def load_accessions(input_arg: str) -> list:
-    """Load accession numbers from a file path or from a delimited list string.
-
-    Accepts:
-      - path to a file (one accession per line or tab-delimited)
-      - a single string of accessions separated by commas, semicolons or whitespace
-    """
-    # If the argument is an existing file path, read it
-    if os.path.exists(input_arg):
-        df = pd.read_table(input_arg, header=None, comment='#', dtype=str)
-        vals = df[0].astype(str).str.strip().replace('', pd.NA).dropna().unique().tolist()
-        return vals
-
-    # Otherwise treat the argument as a delimited list of accessions
-    parts = re.split(r'[,\s;]+', str(input_arg).strip())
-    parts = [p.strip() for p in parts if p.strip()]
-    return list(dict.fromkeys(parts))  # preserve order and remove duplicates
+def load_accessions(input_file: str) -> pd.Series:
+    """Load accession numbers from a file (one per line or tab-delimited)."""
+    df = pd.read_table(input_file, header=None)
+    return df[0].unique()
 
 def normalize_columns_with_mapping(requested, canonical_columns, aliases):
     requested_to_canonical = {}
@@ -372,6 +358,7 @@ def main():
     )
     parser.add_argument(
         '--output', '-o',
+        required=True,
         help='Output TSV file path'
     )
     parser.add_argument(
@@ -396,7 +383,7 @@ def main():
         '--columns',
         nargs='+',
         default=["accession", "strain", "subgenogroup", "country", "location", 
-                "date", "age", "gender", "diagnosis", "doi"],
+                "date", "age_yrs", "sex", "diagnosis", "doi"],
         help='Columns to include in output (default: accession strain subgenogroup country location date age_yrs sex diagnosis doi)'
     )
     
@@ -447,16 +434,20 @@ def main():
     # Accepted user-facing aliases → canonical name
     COLUMN_ALIASES = {
         "gender": "sex",
+
         "place": "location",
+
         "year": "collection_yr",
+        
         "collection_date": "date",
+
         "age": "age_yrs",
         "age_years": "age_yrs",
         "age_month": "age_mo",
+
         "symptoms": "diagnosis",
+
         "clade": "subgenogroup",
-        "published_clade": "subgenogroup",   # <- fixed: user-facing -> canonical
-        "subgenotype": "subgenogroup",
     }
 
     requested_to_canonical, canonical_cols = normalize_columns_with_mapping(
@@ -476,12 +467,9 @@ def main():
     # Rename back to requested column names
     df = df.rename(columns={v: k for k, v in requested_to_canonical.items()})
     
-    print(df.head())
     # Save to file
     # print(f"Saving results to {args.output}...")
-    # if args.output available, save the output, else skip
-    if args.output:
-        df.to_csv(args.output, index=False, sep="\t")
+    df.to_csv(args.output, index=False, sep="\t")
 
     if os.path.exists(args.genbank):
         gb = pd.read_csv(args.genbank, sep="\t")
