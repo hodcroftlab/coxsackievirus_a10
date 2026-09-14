@@ -43,7 +43,7 @@
       "type": "categorical"
     },
     {
-        "key": "age",
+        "key": "age_yrs",
         "title": "Age (years)",
         "type": "continuous",
         "scale": [
@@ -72,17 +72,17 @@
       "type": "categorical"
     },
     {
-      "key": "diagnosis",
+      "key": "med_diagnosis_major",
       "title": "Symptoms",
       "type": "categorical"
     },
     {
-      "key": "isolate-lineage-source",
+      "key": "isolation_source",
       "title": "Isolation Source",
       "type": "categorical"
     },
     {
-      "key": "length",
+      "key": "NCBI_length_genome",
       "title": "NCBI-reported Length",
       "type": "continuous"
     },
@@ -92,7 +92,7 @@
       "type": "ordinal"
     },
     {
-      "key": "abbr_authors",
+      "key": "author",
       "title": "Authors",
       "type": "categorical"
     }  ],
@@ -102,7 +102,7 @@
       "title": "Country"
     },
     {
-      "key": "location",
+      "key": "place",
       "title": "Places"
     },
     {
