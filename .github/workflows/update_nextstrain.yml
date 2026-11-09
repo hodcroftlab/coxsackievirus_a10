@@ -103,7 +103,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add auspice/ data/date_last_updated.txt data/local_accn.txt
+          git add auspice/ data/date_last_updated.txt data/local_accn.txt config/color_dates.tsv logs/*
           git commit -m "chore: update CVA10 builds [skip ci]" || echo "No changes to commit"
           git push origin master
         shell: bash -l {0}
