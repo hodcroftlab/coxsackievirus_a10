@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: master  # Explicitly checkout this branch
 
       - name: Checkout data repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with: 
           repository: hodcroftlab/nextstrain-builds-data
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
@@ -54,7 +54,7 @@ jobs:
           done
 
       - name:  Setup micromamba
-        uses:  mamba-org/setup-micromamba@v2
+        uses:  mamba-org/setup-micromamba@v3
         with:
           environment-file: environment.yaml
           environment-name: nextstrain
@@ -73,7 +73,6 @@ jobs:
         run: |
           cd ingest
           snakemake --cores 10 all \
-            --use-conda \
             --rerun-incomplete \
             --printshellcmds
           cd ../
@@ -85,7 +84,6 @@ jobs:
           ENTREZ_EMAIL: ${{ secrets.ENTREZ_EMAIL }}
         run: |
           snakemake --cores 10 all \
-            --use-conda \
             --rerun-incomplete \
             --printshellcmds
         shell: micromamba-shell {0}
@@ -110,9 +108,9 @@ jobs:
           git push origin master
         shell: bash -l {0}
 
-      - name: Upload workflow artifacts (optional)
+      - name: Upload workflow artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with: 
           name:  pipeline-results
           path: auspice/

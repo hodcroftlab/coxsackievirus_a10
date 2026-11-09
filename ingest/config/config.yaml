@@ -1,6 +1,5 @@
 # Sources of sequences to include in the ingest run
 sources: ['genbank']
-conda_environment: "config/nextstrain.yaml"
 
 # Required to fetch from Entrez
 entrez_search_term: "Coxsackievirus A10"
